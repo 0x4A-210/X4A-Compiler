@@ -1,0 +1,8 @@
+/home/k40/X4A/build/CMakeFiles/intrinsics_gen.dir
+/home/k40/X4A/build/CMakeFiles/vt_gen.dir
+/home/k40/X4A/build/CMakeFiles/omp_gen.dir
+/home/k40/X4A/build/CMakeFiles/acc_gen.dir
+/home/k40/X4A/build/CMakeFiles/target_parser_gen.dir
+/home/k40/X4A/build/CMakeFiles/XAC.dir
+/home/k40/X4A/build/CMakeFiles/edit_cache.dir
+/home/k40/X4A/build/CMakeFiles/rebuild_cache.dir
