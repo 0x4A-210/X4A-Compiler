@@ -14,9 +14,7 @@ mkdir build && cd build
 ## 编译本项目
 在本项目根目录下执行
 ```bash
-mkdir build && cd build
-cmake ..
-make
+./build.sh
 ```
 ## 使用
 ```bash

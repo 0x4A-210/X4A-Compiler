@@ -95,12 +95,6 @@ void StmtListNode::ShowASTNode(){
     }
 }
 
-// void VarDeclareNode::ShowASTNode(){
-//     std::cout<<"[Variable Declaration] name = \""<<name_<<"\""<<std::endl;
-//     std::cout<<"[Variable Declaration] value:"<<std::endl;
-//     value_->ShowASTNode();
-// }
-
 llvm::Value* NumberNode::CodeGenerate(CodeGenContext& context){
     return NULL;
 }
