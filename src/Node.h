@@ -7,7 +7,8 @@ enum Types{
     WORD,
     BYTE,
     CHAR,
-    PTR
+    PTR,
+    Call
 };
 enum BinaryOP{
     ADD=1,

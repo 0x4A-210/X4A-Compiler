@@ -58,8 +58,9 @@ extern int yydebug;
     class VarReferNode; 
     class VarDeclareNode; 
     enum BinaryOP; 
+    enum Types;
 
-#line 63 "/home/k40/X4A/src/bison/yacc.hpp"
+#line 64 "/home/k40/X4A/src/bison/yacc.hpp"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -71,16 +72,17 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     VARIABLE = 258,                /* VARIABLE  */
-    NUMBER = 259,                  /* NUMBER  */
-    CHARACTER = 260,               /* CHARACTER  */
-    EQUALOP = 261,                 /* EQUALOP  */
-    HIGHEROP = 262,                /* HIGHEROP  */
-    LOWEROP = 263,                 /* LOWEROP  */
-    ADDOP = 264,                   /* ADDOP  */
-    SUBOP = 265,                   /* SUBOP  */
-    MULOP = 266,                   /* MULOP  */
-    DIVOP = 267,                   /* DIVOP  */
-    END = 268                      /* END  */
+    TYPE = 259,                    /* TYPE  */
+    NUMBER = 260,                  /* NUMBER  */
+    CHARACTER = 261,               /* CHARACTER  */
+    EQUALOP = 262,                 /* EQUALOP  */
+    HIGHEROP = 263,                /* HIGHEROP  */
+    LOWEROP = 264,                 /* LOWEROP  */
+    ADDOP = 265,                   /* ADDOP  */
+    SUBOP = 266,                   /* SUBOP  */
+    MULOP = 267,                   /* MULOP  */
+    DIVOP = 268,                   /* DIVOP  */
+    END = 269                      /* END  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -89,16 +91,17 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 26 "/home/k40/X4A/src/bison/yacc.y"
+#line 27 "/home/k40/X4A/src/bison/yacc.y"
  
     std::string* str; 
     long long num_;
     char charac_; 
     BinaryOP op_; 
+    Types type_;
     ExprNode* expr; 
     StmtNode* stmt; 
 
-#line 102 "/home/k40/X4A/src/bison/yacc.hpp"
+#line 105 "/home/k40/X4A/src/bison/yacc.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -11,6 +11,7 @@
     class VarReferNode; 
     class VarDeclareNode; 
     enum BinaryOP; 
+    enum Types;
 } 
 %{ 
     #include <iostream> 
@@ -28,11 +29,13 @@
     long long num_;
     char charac_; 
     BinaryOP op_; 
+    Types type_;
     ExprNode* expr; 
     StmtNode* stmt; 
 } 
 // 声明token（和lex.l完全对应） 
-%token <str> VARIABLE 
+%token <str> VARIABLE
+%token <type_> TYPE
 %token <num_> NUMBER 
 %token <charac_> CHARACTER 
 %token <op_> EQUALOP HIGHEROP LOWEROP ADDOP SUBOP MULOP DIVOP END 
@@ -48,10 +51,10 @@
   | 
   ; 
 stmt: 
-  VARIABLE EQUALOP expr END 
+  TYPE VARIABLE EQUALOP expr END 
     { 
-        $$ = new VarDeclareNode(*$1, $3); 
-        delete $1;
+        $$ = new VarDeclareNode(*$2, $4,$1); 
+        delete $2;
     } // 赋值语句：a = 123; ; 
   expr: 
     NUMBER { $$ = new NumberNode($1); } 

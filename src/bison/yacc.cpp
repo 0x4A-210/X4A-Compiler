@@ -67,7 +67,7 @@
 
 
 /* First part of user prologue.  */
-#line 15 "/home/k40/X4A/src/bison/yacc.y"
+#line 16 "/home/k40/X4A/src/bison/yacc.y"
  
     #include <iostream> 
     #include <vector> 
@@ -110,20 +110,21 @@ enum yysymbol_kind_t
   YYSYMBOL_YYerror = 1,                    /* error  */
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
   YYSYMBOL_VARIABLE = 3,                   /* VARIABLE  */
-  YYSYMBOL_NUMBER = 4,                     /* NUMBER  */
-  YYSYMBOL_CHARACTER = 5,                  /* CHARACTER  */
-  YYSYMBOL_EQUALOP = 6,                    /* EQUALOP  */
-  YYSYMBOL_HIGHEROP = 7,                   /* HIGHEROP  */
-  YYSYMBOL_LOWEROP = 8,                    /* LOWEROP  */
-  YYSYMBOL_ADDOP = 9,                      /* ADDOP  */
-  YYSYMBOL_SUBOP = 10,                     /* SUBOP  */
-  YYSYMBOL_MULOP = 11,                     /* MULOP  */
-  YYSYMBOL_DIVOP = 12,                     /* DIVOP  */
-  YYSYMBOL_END = 13,                       /* END  */
-  YYSYMBOL_YYACCEPT = 14,                  /* $accept  */
-  YYSYMBOL_program_root = 15,              /* program_root  */
-  YYSYMBOL_stmt = 16,                      /* stmt  */
-  YYSYMBOL_expr = 17                       /* expr  */
+  YYSYMBOL_TYPE = 4,                       /* TYPE  */
+  YYSYMBOL_NUMBER = 5,                     /* NUMBER  */
+  YYSYMBOL_CHARACTER = 6,                  /* CHARACTER  */
+  YYSYMBOL_EQUALOP = 7,                    /* EQUALOP  */
+  YYSYMBOL_HIGHEROP = 8,                   /* HIGHEROP  */
+  YYSYMBOL_LOWEROP = 9,                    /* LOWEROP  */
+  YYSYMBOL_ADDOP = 10,                     /* ADDOP  */
+  YYSYMBOL_SUBOP = 11,                     /* SUBOP  */
+  YYSYMBOL_MULOP = 12,                     /* MULOP  */
+  YYSYMBOL_DIVOP = 13,                     /* DIVOP  */
+  YYSYMBOL_END = 14,                       /* END  */
+  YYSYMBOL_YYACCEPT = 15,                  /* $accept  */
+  YYSYMBOL_program_root = 16,              /* program_root  */
+  YYSYMBOL_stmt = 17,                      /* stmt  */
+  YYSYMBOL_expr = 18                       /* expr  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -454,16 +455,16 @@ union yyalloc
 #define YYLAST   17
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  14
+#define YYNTOKENS  15
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  4
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  11
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  19
+#define YYNSTATES  20
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   268
+#define YYMAXUTOK   269
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -503,15 +504,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    47,    47,    48,    51,    57,    58,    59,    63,    64,
-      65,    66
+       0,    50,    50,    51,    54,    60,    61,    62,    66,    67,
+      68,    69
 };
 #endif
 
@@ -527,9 +528,10 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "\"invalid token\"", "VARIABLE", "NUMBER",
-  "CHARACTER", "EQUALOP", "HIGHEROP", "LOWEROP", "ADDOP", "SUBOP", "MULOP",
-  "DIVOP", "END", "$accept", "program_root", "stmt", "expr", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "VARIABLE", "TYPE",
+  "NUMBER", "CHARACTER", "EQUALOP", "HIGHEROP", "LOWEROP", "ADDOP",
+  "SUBOP", "MULOP", "DIVOP", "END", "$accept", "program_root", "stmt",
+  "expr", YY_NULLPTR
 };
 
 static const char *
@@ -539,7 +541,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-10)
+#define YYPACT_NINF (-11)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -553,8 +555,8 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -10,     9,   -10,    11,   -10,    10,   -10,   -10,   -10,    -9,
-      10,    10,    10,    10,   -10,    -1,    -1,   -10,   -10
+     -11,     5,   -11,    12,   -11,     1,    11,   -11,   -11,   -11,
+     -10,    11,    11,    11,    11,   -11,    -6,    -6,   -11,   -11
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -562,20 +564,20 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       3,     0,     1,     0,     2,     0,     7,     5,     6,     0,
-       0,     0,     0,     0,     4,     8,     9,    10,    11
+       3,     0,     1,     0,     2,     0,     0,     7,     5,     6,
+       0,     0,     0,     0,     0,     4,     8,     9,    10,    11
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -10,   -10,   -10,    -5
+     -11,   -11,   -11,    -1
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,     4,     9
+       0,     1,     4,    10
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -583,35 +585,35 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      10,    11,    12,    13,    14,    15,    16,    17,    18,     2,
-      12,    13,     3,     6,     7,     8,     0,     5
+      11,    12,    13,    14,    15,     2,    13,    14,     6,     3,
+      16,    17,    18,    19,     7,     5,     8,     9
 };
 
 static const yytype_int8 yycheck[] =
 {
-       9,    10,    11,    12,    13,    10,    11,    12,    13,     0,
-      11,    12,     3,     3,     4,     5,    -1,     6
+      10,    11,    12,    13,    14,     0,    12,    13,     7,     4,
+      11,    12,    13,    14,     3,     3,     5,     6
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    15,     0,     3,    16,     6,     3,     4,     5,    17,
-       9,    10,    11,    12,    13,    17,    17,    17,    17
+       0,    16,     0,     4,    17,     3,     7,     3,     5,     6,
+      18,    10,    11,    12,    13,    14,    18,    18,    18,    18
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    14,    15,    15,    16,    17,    17,    17,    17,    17,
-      17,    17
+       0,    15,    16,    16,    17,    18,    18,    18,    18,    18,
+      18,    18
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     2,     0,     4,     1,     1,     1,     3,     3,
+       0,     2,     2,     0,     5,     1,     1,     1,     3,     3,
        3,     3
 };
 
@@ -1076,67 +1078,67 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program_root: program_root stmt  */
-#line 47 "/home/k40/X4A/src/bison/yacc.y"
+#line 50 "/home/k40/X4A/src/bison/yacc.y"
                     { program.AddStmt((yyvsp[0].stmt)); }
-#line 1082 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1084 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
-  case 4: /* stmt: VARIABLE EQUALOP expr END  */
-#line 52 "/home/k40/X4A/src/bison/yacc.y"
+  case 4: /* stmt: TYPE VARIABLE EQUALOP expr END  */
+#line 55 "/home/k40/X4A/src/bison/yacc.y"
     { 
-        (yyval.stmt) = new VarDeclareNode(*(yyvsp[-3].str), (yyvsp[-1].expr)); 
+        (yyval.stmt) = new VarDeclareNode(*(yyvsp[-3].str), (yyvsp[-1].expr),(yyvsp[-4].type_)); 
         delete (yyvsp[-3].str);
     }
-#line 1091 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1093 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 5: /* expr: NUMBER  */
-#line 57 "/home/k40/X4A/src/bison/yacc.y"
+#line 60 "/home/k40/X4A/src/bison/yacc.y"
            { (yyval.expr) = new NumberNode((yyvsp[0].num_)); }
-#line 1097 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1099 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 6: /* expr: CHARACTER  */
-#line 58 "/home/k40/X4A/src/bison/yacc.y"
+#line 61 "/home/k40/X4A/src/bison/yacc.y"
                 { (yyval.expr) = new CharNode((yyvsp[0].charac_)); }
-#line 1103 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1105 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 7: /* expr: VARIABLE  */
-#line 59 "/home/k40/X4A/src/bison/yacc.y"
+#line 62 "/home/k40/X4A/src/bison/yacc.y"
                { 
         (yyval.expr) = new VarReferNode(*(yyvsp[0].str)); 
         delete (yyvsp[0].str);
       }
-#line 1112 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1114 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 8: /* expr: expr ADDOP expr  */
-#line 63 "/home/k40/X4A/src/bison/yacc.y"
+#line 66 "/home/k40/X4A/src/bison/yacc.y"
                       { (yyval.expr) = new BinaryOPNode((yyvsp[-2].expr), (yyvsp[-1].op_), (yyvsp[0].expr)); }
-#line 1118 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1120 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 9: /* expr: expr SUBOP expr  */
-#line 64 "/home/k40/X4A/src/bison/yacc.y"
+#line 67 "/home/k40/X4A/src/bison/yacc.y"
                       { (yyval.expr) = new BinaryOPNode((yyvsp[-2].expr), (yyvsp[-1].op_), (yyvsp[0].expr)); }
-#line 1124 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1126 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 10: /* expr: expr MULOP expr  */
-#line 65 "/home/k40/X4A/src/bison/yacc.y"
+#line 68 "/home/k40/X4A/src/bison/yacc.y"
                       { (yyval.expr) = new BinaryOPNode((yyvsp[-2].expr), (yyvsp[-1].op_), (yyvsp[0].expr)); }
-#line 1130 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1132 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 11: /* expr: expr DIVOP expr  */
-#line 66 "/home/k40/X4A/src/bison/yacc.y"
+#line 69 "/home/k40/X4A/src/bison/yacc.y"
                       { (yyval.expr) = new BinaryOPNode((yyvsp[-2].expr), (yyvsp[-1].op_), (yyvsp[0].expr)); }
-#line 1136 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1138 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
 
-#line 1140 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1142 "/home/k40/X4A/src/bison/yacc.cpp"
 
       default: break;
     }
@@ -1329,4 +1331,4 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 68 "/home/k40/X4A/src/bison/yacc.y"
+#line 71 "/home/k40/X4A/src/bison/yacc.y"
