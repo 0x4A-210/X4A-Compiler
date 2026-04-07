@@ -4,7 +4,7 @@
     class Node; 
     class ExprNode; 
     class StmtNode; 
-    class StmtListNode; 
+    class StmtLists; 
     class NumberNode;
     class CharNode; 
     class BinaryOPNode; 
@@ -17,11 +17,11 @@
     #include <iostream> 
     #include <vector> 
     #include <cstdlib> 
-    #include "../Node.h" 
+    #include "../AST/Node.h" 
     extern int yylex(); 
     void yyerror(const char* s) { std::cerr << "Error: " << s << std::endl; } 
     // 根节点：保存所有语句 
-    StmtListNode program; 
+    StmtLists program; 
 %} 
     // 语义值类型：支持字符串（存储变量名/数字/字符） 
 %union { 
@@ -38,7 +38,7 @@
 %token <type_> TYPE
 %token <num_> NUMBER 
 %token <charac_> CHARACTER 
-%token <op_> EQUALOP HIGHEROP LOWEROP ADDOP SUBOP MULOP DIVOP END 
+%token <op_> ASSIGNOP HIGHEROP LOWEROP ADDOP SUBOP MULOP DIVOP END 
 // 优先级与结合性（先乘除后加减） 
 %left ADDOP SUBOP 
 %left MULOP DIVOP 
@@ -51,7 +51,7 @@
   | 
   ; 
 stmt: 
-  TYPE VARIABLE EQUALOP expr END 
+  TYPE VARIABLE ASSIGNOP expr END 
     { 
         $$ = new VarDeclareNode(*$2, $4,$1); 
         delete $2;

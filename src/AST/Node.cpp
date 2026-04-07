@@ -27,7 +27,7 @@ void BinaryOPNode::ShowASTNode(){
             std::cout<<"'/'";
             break;
         }
-        case EQUAL:{
+        case ASSIGN:{
             std::cout<<"'='";
             break;
         }
@@ -88,39 +88,13 @@ void VarDeclareNode::ShowASTNode(){
     std::cout<<"}";
 }
 
-void StmtListNode::ShowASTNode(){
+void StmtLists::ShowAST(){
     for (size_t i = 0; i < stmts_.size(); ++i) {
         stmts_[i]->ShowASTNode();
         std::cout<<std::endl;
     }
 }
 
-llvm::Value* NumberNode::CodeGenerate(CodeGenContext& context){
-    return NULL;
-}
-
-llvm::Value* CharNode::CodeGenerate(CodeGenContext& context){
-    return NULL;
-}
-
-llvm::Value* BinaryOPNode::CodeGenerate(CodeGenContext& context){
-    return NULL;
-}
-
-llvm::Value* VarReferNode::CodeGenerate(CodeGenContext& context){
-    return NULL;
-}
-
-void VarDeclareNode::CodeGenerate(CodeGenContext& context){
-    return;
-}
-
-void StmtListNode::CodeGenerate(CodeGenContext& context){
-    for (size_t i = 0; i < stmts_.size(); ++i) {
-        stmts_[i]->CodeGenerate(context);
-    }
-}
-
-void StmtListNode::AddStmt(StmtNode* stmt){
+void StmtLists::AddStmt(StmtNode* stmt){
     stmts_.push_back(stmt);
 }

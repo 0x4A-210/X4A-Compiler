@@ -464,7 +464,7 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "/home/k40/X4A/src/flex/lexical.l"
 #line 2 "/home/k40/X4A/src/flex/lexical.l"
-#include "../Node.h" 
+#include "../AST/Node.h" 
 #include "../bison/yacc.hpp" 
 extern "C" int yywrap() { return 1;} 
 #line 471 "/home/k40/X4A/src/flex/lexical.cpp"
@@ -783,7 +783,7 @@ YY_RULE_SETUP
 case 8:
 YY_RULE_SETUP
 #line 15 "/home/k40/X4A/src/flex/lexical.l"
-{yylval.op_=EQUAL; return EQUALOP;} 
+{yylval.op_=ASSIGN; return ASSIGNOP;} 
 	YY_BREAK
 case 9:
 YY_RULE_SETUP

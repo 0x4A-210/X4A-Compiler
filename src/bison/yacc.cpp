@@ -72,11 +72,11 @@
     #include <iostream> 
     #include <vector> 
     #include <cstdlib> 
-    #include "../Node.h" 
+    #include "../AST/Node.h" 
     extern int yylex(); 
     void yyerror(const char* s) { std::cerr << "Error: " << s << std::endl; } 
     // 根节点：保存所有语句 
-    StmtListNode program; 
+    StmtLists program; 
 
 #line 82 "/home/k40/X4A/src/bison/yacc.cpp"
 
@@ -113,7 +113,7 @@ enum yysymbol_kind_t
   YYSYMBOL_TYPE = 4,                       /* TYPE  */
   YYSYMBOL_NUMBER = 5,                     /* NUMBER  */
   YYSYMBOL_CHARACTER = 6,                  /* CHARACTER  */
-  YYSYMBOL_EQUALOP = 7,                    /* EQUALOP  */
+  YYSYMBOL_ASSIGNOP = 7,                   /* ASSIGNOP  */
   YYSYMBOL_HIGHEROP = 8,                   /* HIGHEROP  */
   YYSYMBOL_LOWEROP = 9,                    /* LOWEROP  */
   YYSYMBOL_ADDOP = 10,                     /* ADDOP  */
@@ -529,7 +529,7 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "VARIABLE", "TYPE",
-  "NUMBER", "CHARACTER", "EQUALOP", "HIGHEROP", "LOWEROP", "ADDOP",
+  "NUMBER", "CHARACTER", "ASSIGNOP", "HIGHEROP", "LOWEROP", "ADDOP",
   "SUBOP", "MULOP", "DIVOP", "END", "$accept", "program_root", "stmt",
   "expr", YY_NULLPTR
 };
@@ -1083,7 +1083,7 @@ yyreduce:
 #line 1084 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
-  case 4: /* stmt: TYPE VARIABLE EQUALOP expr END  */
+  case 4: /* stmt: TYPE VARIABLE ASSIGNOP expr END  */
 #line 55 "/home/k40/X4A/src/bison/yacc.y"
     { 
         (yyval.stmt) = new VarDeclareNode(*(yyvsp[-3].str), (yyvsp[-1].expr),(yyvsp[-4].type_)); 

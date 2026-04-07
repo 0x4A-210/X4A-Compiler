@@ -1,6 +1,8 @@
+#pragma once
 #include"llvm/IR/Value.h"
 #include<string>
 #include<vector>
+class X4A_Ctx;
 enum Types{
     QWORD=1,
     DWORD,
@@ -8,14 +10,14 @@ enum Types{
     BYTE,
     CHAR,
     PTR,
-    Call
+    Function
 };
 enum BinaryOP{
     ADD=1,
     SUB,
     MUL,
     DIV,
-    EQUAL,
+    ASSIGN,
     HIGHER,
     LOWER,
 };
@@ -26,16 +28,16 @@ public:
 };
 
 class ExprNode:public Node{
-  //默认有了析构和CodeGenerate函数
+  //默认有了析构和IRGenerate函数
 public:
-    virtual llvm::Value* CodeGenerate(class CodeGenContext& context) =0;
+    virtual llvm::Value* IRGenerate(X4A_Ctx& context) =0;
     virtual void ShowASTNode() =0;
 };
 
 class StmtNode:public Node{
-    //默认有了析构和CodeGenerate函数
+    //默认有了析构和IRGenerate函数
 public:
-    virtual void CodeGenerate(CodeGenContext& context)  =0;
+    virtual void IRGenerate(X4A_Ctx& context)  =0;
     virtual void ShowASTNode() =0;
 };
 
@@ -43,7 +45,7 @@ class NumberNode:public ExprNode{
     long long value_;
 public:
     NumberNode(long long value) : value_(value){}
-    llvm::Value* CodeGenerate(CodeGenContext& context); 
+    llvm::Value* IRGenerate(X4A_Ctx& context) override; 
     void ShowASTNode();
 };
 
@@ -51,7 +53,7 @@ class CharNode:public ExprNode{
     char value_;
 public:
     CharNode(char value) : value_(value){}
-    llvm::Value* CodeGenerate(CodeGenContext& context); 
+    llvm::Value* IRGenerate(X4A_Ctx& context) override; 
     void ShowASTNode();
 };
 
@@ -61,7 +63,7 @@ class BinaryOPNode:public ExprNode{
     BinaryOP op_;
 public:
     BinaryOPNode(ExprNode* left, BinaryOP op, ExprNode* right) : left_(left), op_(op), right_(right){}
-    llvm::Value* CodeGenerate(CodeGenContext& context); 
+    llvm::Value* IRGenerate(X4A_Ctx& context) override;
     void ShowASTNode();
 };
 
@@ -69,7 +71,7 @@ class VarReferNode: public ExprNode{
     std::string name_;
 public:
     VarReferNode(std::string name) : name_(name){}
-    llvm::Value* CodeGenerate(CodeGenContext& context);
+    llvm::Value* IRGenerate(X4A_Ctx& context);
     void ShowASTNode();
 };
 
@@ -79,15 +81,15 @@ class VarDeclareNode:public StmtNode{
     ExprNode* value_;
 public:
     VarDeclareNode(std::string name, ExprNode* value,Types type=QWORD) : name_(name), value_(value),type_(type){}
-    void CodeGenerate(CodeGenContext& context);
+    void IRGenerate(X4A_Ctx& context);
     void ShowASTNode();
 };
 
-class StmtListNode: public Node{
+class StmtLists: public Node{
     std::vector<StmtNode*> stmts_;
 public:
-    StmtListNode() {}
-    void CodeGenerate(CodeGenContext& context);
+    StmtLists() {}
+    void IRGenerate(X4A_Ctx& context);
     void AddStmt(StmtNode* stmt);
-    void ShowASTNode();
+    void ShowAST();
 };

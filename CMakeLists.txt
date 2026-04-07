@@ -57,7 +57,9 @@ ADD_FLEX_BISON_DEPENDENCY(XAC_Scanner XAC_Parser)
 # ==============================================
 set(SOURCE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Node.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/AST/Node.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Generator/IRGenerate.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Lib/Lib.cpp
     ${BISON_XAC_Parser_OUTPUTS}
     ${FLEX_XAC_Scanner_OUTPUTS}
 )
@@ -71,8 +73,10 @@ add_executable(XAC ${SOURCE_FILES})
 # 10. 配置头文件包含目录
 # ==============================================
 target_include_directories(XAC PRIVATE
-    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/AST
     ${PROJECT_SOURCE_DIR}/src/bison
+    ${PROJECT_SOURCE_DIR}/src/Generator
+    ${PROJECT_SOURCE_DIR}/src/Lib
     ${LLVM_INCLUDE_DIRS}
 )
 

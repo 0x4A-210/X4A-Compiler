@@ -51,7 +51,7 @@ extern int yydebug;
     class Node; 
     class ExprNode; 
     class StmtNode; 
-    class StmtListNode; 
+    class StmtLists; 
     class NumberNode;
     class CharNode; 
     class BinaryOPNode; 
@@ -75,7 +75,7 @@ extern int yydebug;
     TYPE = 259,                    /* TYPE  */
     NUMBER = 260,                  /* NUMBER  */
     CHARACTER = 261,               /* CHARACTER  */
-    EQUALOP = 262,                 /* EQUALOP  */
+    ASSIGNOP = 262,                /* ASSIGNOP  */
     HIGHEROP = 263,                /* HIGHEROP  */
     LOWEROP = 264,                 /* LOWEROP  */
     ADDOP = 265,                   /* ADDOP  */
