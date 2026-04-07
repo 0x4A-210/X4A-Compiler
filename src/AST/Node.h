@@ -49,6 +49,10 @@ public:
 };
 
 class NumberNode:public ExprNode{
+    /*
+    数值，以表达式看待，比如一个单个的1，也是一个表达式
+    因此是ExprNode的子类
+    */
     long long value_;
 public:
     NumberNode(long long value) : value_(value){}
