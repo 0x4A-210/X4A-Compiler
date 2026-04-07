@@ -28,16 +28,23 @@ public:
 };
 
 class ExprNode:public Node{
+    /*
+    表达式类型，比如a=1+3;这里1和3都是一个表达式（或者说ExprNode的子类）
+    表达式必须有一个值
+    */
   //默认有了析构和IRGenerate函数
 public:
-    virtual llvm::Value* IRGenerate(X4A_Ctx& context) =0;
+    virtual llvm::Value* IRGenerate(X4A_Ctx& context) =0;  //这里返回类型必须是一个llvm::Value类型
     virtual void ShowASTNode() =0;
 };
 
 class StmtNode:public Node{
     //默认有了析构和IRGenerate函数
+    /*
+    语句类型，实现一个效果，没有值
+    */
 public:
-    virtual void IRGenerate(X4A_Ctx& context)  =0;
+    virtual void IRGenerate(X4A_Ctx& context)  =0;  //语句，没有值
     virtual void ShowASTNode() =0;
 };
 

@@ -21,7 +21,7 @@ mkdir build && cd build
 ./bin/XAC ./test/main.xa
 ```
 ## TODO
-目前只实现了语法树部分，还无法把.xa文本文件编译成可执行的ELF文件
+目前只实现了IR生成部分，还无法把.xa文本文件编译成可执行的ELF文件
 # 语法规定
 ## 支持的数据类型：
 - char类型，同C

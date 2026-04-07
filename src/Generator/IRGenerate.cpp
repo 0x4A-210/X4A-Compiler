@@ -14,7 +14,7 @@ llvm::Value* CharNode::IRGenerate(X4A_Ctx& context){
 }
 
 llvm::Value* BinaryOPNode::IRGenerate(X4A_Ctx& context){
-    llvm::Value* leftVal=left_->IRGenerate(context);
+    llvm::Value* leftVal=left_->IRGenerate(context);  //由于Expr里的IRGenerate是纯虚的，因此这里直接多态了，不会出现未实现错误
     if(!leftVal) return NULL;
     llvm::Value* rightVal=right_->IRGenerate(context);
     if(!rightVal) return NULL;

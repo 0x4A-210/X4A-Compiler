@@ -33,12 +33,14 @@ void X4A_Run(int cliCount,char* argv[]){
         context.llvmModule_=std::make_unique<llvm::Module>("X4A_Module",*context.llvmContext_);
         context.llvmBuilder_=std::make_unique<llvm::IRBuilder<>>(*context.llvmContext_);
 
+        //创建主函数
         llvm::Function* mainFunc = llvm::Function::Create(llvm::FunctionType::get(llvm::Type::getInt32Ty(*context.llvmContext_),false),llvm::Function::ExternalLinkage,"main",context.llvmModule_.get());
         llvm::BasicBlock* entry = llvm::BasicBlock::Create(*context.llvmContext_,"entry",mainFunc);
         context.llvmBuilder_->SetInsertPoint(entry);
-        program.IRGenerate(context);
+        program.IRGenerate(context); //生成IR
+        //创建返回指令
         context.llvmBuilder_->CreateRet(llvm::ConstantInt::get(llvm::Type::getInt32Ty(*context.llvmContext_), 0));
-        context.llvmModule_->print(llvm::outs(), NULL);
+        context.llvmModule_->print(llvm::outs(), NULL);  //打印输出IR，用于前期调试
         fclose(yyin);
     }
     else{
