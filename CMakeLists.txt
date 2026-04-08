@@ -83,8 +83,8 @@ target_include_directories(XAC PRIVATE
 # ==============================================
 # 11. 链接LLVM core库
 # ==============================================
-llvm_map_components_to_libnames(LLVM_CORE_LIBS core)
-target_link_libraries(XAC PRIVATE ${LLVM_CORE_LIBS})
+llvm_map_components_to_libnames(LLVM_LIBS core support target mc nativecodegen)
+target_link_libraries(XAC PRIVATE ${LLVM_LIBS})
 
 # ==============================================
 # 12. 配置C++标准

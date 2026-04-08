@@ -21,7 +21,7 @@ mkdir build && cd build
 ./bin/XAC ./test/main.xa
 ```
 ## TODO
-目前只实现了IR生成部分，还无法把.xa文本文件编译成可执行的ELF文件
+已经可以完美生成目标文件（.o），接下来考虑支持函数调用语句、分支循环控制流，并最终实现输出hello world
 # 语法规定
 ## 支持的数据类型：
 - char类型，同C

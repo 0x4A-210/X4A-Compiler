@@ -2,25 +2,87 @@
 #include<iostream>
 #include<fstream>
 #include"../Generator/IRGenerate.h"
+// Target 相关（核心）
+#include"llvm/Support/TargetSelect.h"
+#include"llvm/Target/TargetMachine.h"
+#include"llvm/MC/TargetRegistry.h"
+
+// 输出文件
+#include"llvm/Support/FileSystem.h"
+#include"llvm/Support/raw_ostream.h"
+
+// PassManager
+#include"llvm/IR/LegacyPassManager.h"
+
+// Target triple
+#include"llvm/TargetParser/Host.h"
 #include"../AST/Node.h"
 extern int yyparse();
 extern StmtLists program;
 extern FILE* yyin;
 FILE* ParseCLI(int cliCount,char* argv[]){
-    if(cliCount==2){
-        FILE* src_file=fopen(argv[1],"r");
-        if(!src_file){
+    if(cliCount==3){
+        FILE* srcFile=fopen(argv[1],"r");
+        if(!srcFile){
             std::cout<<"source file error"<<std::endl;
             exit(1);
         }
         else{
-            return src_file;
+            return srcFile;
         }
     }
     else{
         std::cout<<"argc error"<<std::endl;
         exit(1);
     }
+}
+
+void Assembler(const X4A_Ctx& context,const char* dstFile){
+    llvm::InitializeNativeTarget();
+    llvm::InitializeNativeTargetAsmPrinter();
+    llvm::InitializeNativeTargetAsmPrinter();
+    llvm::Triple archInfo(llvm::sys::getDefaultTargetTriple());
+    context.llvmModule_->setTargetTriple(archInfo);
+    std::string error;
+    const llvm::Target* target=llvm::TargetRegistry::lookupTarget(archInfo,error);
+    if(!target){
+        std::cout<<"Target error: "<<error<<std::endl;
+        exit(1); 
+    }
+    std::string cpu("generic");
+    std::string features("");
+    llvm::TargetOptions opt;
+
+    llvm::TargetMachine *targetMachine =target->createTargetMachine(archInfo, cpu, features, opt, llvm::Reloc::PIC_);
+
+    // 4. 设置 DataLayout
+    context.llvmModule_->setDataLayout(targetMachine->createDataLayout());
+
+    // 5. 输出文件
+    std::error_code err_code;
+    llvm::raw_fd_ostream dest(dstFile, err_code, llvm::sys::fs::OF_None);
+
+    if (err_code) {
+        llvm::errs() << "Could not open file: " << err_code.message();
+        return;
+    }
+
+    llvm::legacy::PassManager llvmPass;
+
+    if (targetMachine->addPassesToEmitFile(llvmPass, dest, nullptr, llvm::CodeGenFileType::ObjectFile)) {
+        llvm::errs() << "TargetMachine can't emit object file";
+        return;
+    }
+
+    // 6. 运行 Pass
+    llvmPass.run(*context.llvmModule_);
+
+    dest.flush();
+}
+
+void Linker(const X4A_Ctx& context){
+
+    return;
 }
 
 void X4A_Run(int cliCount,char* argv[]){
@@ -41,6 +103,7 @@ void X4A_Run(int cliCount,char* argv[]){
         //创建返回指令
         context.llvmBuilder_->CreateRet(llvm::ConstantInt::get(llvm::Type::getInt32Ty(*context.llvmContext_), 0));
         context.llvmModule_->print(llvm::outs(), NULL);  //打印输出IR，用于前期调试
+        Assembler(context, argv[2]); //生成目标文件
         fclose(yyin);
     }
     else{
