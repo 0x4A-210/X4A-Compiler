@@ -27,8 +27,16 @@ void BinaryOPNode::ShowASTNode(){
             std::cout<<"'/'";
             break;
         }
-        case ASSIGN:{
-            std::cout<<"'='";
+        case EQUAL:{
+            std::cout<<"'=='";
+            break;
+        }
+        case HIGHER:{
+            std::cout<<"'>'";
+            break;
+        }
+        case LOWER:{
+            std::cout<<"'<'";
             break;
         }
         default:{
@@ -88,6 +96,15 @@ void VarDeclareNode::ShowASTNode(){
     std::cout<<"}";
 }
 
+void AssignStmtNode::ShowASTNode(){
+    std::cout<<"[Assign Statement] left value: {";
+    leftValue_->ShowASTNode();
+    std::cout<<"}"<<std::endl;
+    std::cout<<"[Assign Statement] right value: {";
+    rightValue_->ShowASTNode();
+    std::cout<<"}";
+}
+
 void StmtLists::ShowAST(){
     for (size_t i = 0; i < stmts_.size(); ++i) {
         stmts_[i]->ShowASTNode();
@@ -97,4 +114,34 @@ void StmtLists::ShowAST(){
 
 void StmtLists::AddStmt(StmtNode* stmt){
     stmts_.push_back(stmt);
+}
+
+void BlockNode::ShowASTNode(){
+    std::cout<<"[Block] {"<<std::endl;
+    for(size_t i=0;i<stmts_.size();++i){
+        stmts_[i]->ShowASTNode();
+        std::cout<<std::endl;
+    }
+    std::cout<<"}"<<std::endl;
+}
+
+void BlockNode::AddStmt(StmtNode* stmt){
+    stmts_.push_back(stmt);
+}
+
+BlockNode BlockNode::operator =(const BlockNode& other){
+    stmts_=other.stmts_;
+    return *this;
+}
+
+void IfElseNode::ShowASTNode(){
+    std::cout<<"[If-Else Statement] condition: {";
+    condition_->ShowASTNode();
+    std::cout<<"}"<<std::endl;
+    std::cout<<"[If-Else Statement] if block: {"<<std::endl;
+    ifBlock_->ShowASTNode();
+    std::cout<<"}"<<std::endl;
+    std::cout<<"[If-Else Statement] else block: {"<<std::endl;
+    elseBlock_->ShowASTNode();
+    std::cout<<"}"<<std::endl;
 }

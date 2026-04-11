@@ -107,7 +107,6 @@ void X4A_Run(int cliCount,char* argv[]){
         fclose(yyin);
     }
     else{
-        std::cout<<"Parsing failed!"<<std::endl;
         fclose(yyin);
         exit(1);
     }

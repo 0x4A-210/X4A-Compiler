@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 2 "/home/k40/X4A/src/bison/yacc.y"
+#line 3 "/home/k40/X4A/src/bison/yacc.y"
  
     // 前向声明，告诉编译器ExprNode和StmtNode是类，指针可正常使用 
     class Node; 
@@ -57,10 +57,11 @@ extern int yydebug;
     class BinaryOPNode; 
     class VarReferNode; 
     class VarDeclareNode; 
+    class ExprStmtNode;
     enum BinaryOP; 
     enum Types;
 
-#line 64 "/home/k40/X4A/src/bison/yacc.hpp"
+#line 65 "/home/k40/X4A/src/bison/yacc.hpp"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -75,14 +76,21 @@ extern int yydebug;
     TYPE = 259,                    /* TYPE  */
     NUMBER = 260,                  /* NUMBER  */
     CHARACTER = 261,               /* CHARACTER  */
-    ASSIGNOP = 262,                /* ASSIGNOP  */
-    HIGHEROP = 263,                /* HIGHEROP  */
-    LOWEROP = 264,                 /* LOWEROP  */
-    ADDOP = 265,                   /* ADDOP  */
-    SUBOP = 266,                   /* SUBOP  */
-    MULOP = 267,                   /* MULOP  */
-    DIVOP = 268,                   /* DIVOP  */
-    END = 269                      /* END  */
+    HIGHEROP = 262,                /* HIGHEROP  */
+    LOWEROP = 263,                 /* LOWEROP  */
+    ADDOP = 264,                   /* ADDOP  */
+    SUBOP = 265,                   /* SUBOP  */
+    MULOP = 266,                   /* MULOP  */
+    DIVOP = 267,                   /* DIVOP  */
+    EQUALOP = 268,                 /* EQUALOP  */
+    IF = 269,                      /* IF  */
+    ELSE = 270,                    /* ELSE  */
+    LPAREN = 271,                  /* LPAREN  */
+    RPAREN = 272,                  /* RPAREN  */
+    LBRACE = 273,                  /* LBRACE  */
+    RBRACE = 274,                  /* RBRACE  */
+    ASSIGN = 275,                  /* ASSIGN  */
+    END = 276                      /* END  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -91,17 +99,18 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 27 "/home/k40/X4A/src/bison/yacc.y"
+#line 33 "/home/k40/X4A/src/bison/yacc.y"
  
     std::string* str; 
     long long num_;
     char charac_; 
     BinaryOP op_; 
     Types type_;
-    ExprNode* expr; 
-    StmtNode* stmt; 
+    ExprNode* expr_; 
+    StmtNode* stmt_; 
+    BlockNode* block_;
 
-#line 105 "/home/k40/X4A/src/bison/yacc.hpp"
+#line 114 "/home/k40/X4A/src/bison/yacc.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

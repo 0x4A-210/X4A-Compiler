@@ -35,8 +35,8 @@ llvm::Value* BinaryOPNode::IRGenerate(X4A_Ctx& context){
             return context.llvmBuilder_->CreateSDiv(leftVal,rightVal,"exprDiv");
             break;
         }
-        case ASSIGN:{
-            return context.llvmBuilder_->CreateICmpEQ(leftVal, rightVal, "exprAssign");
+        case EQUAL:{
+            return context.llvmBuilder_->CreateICmpEQ(leftVal, rightVal, "exprEqual");
             break;
         }
         case HIGHER:{
@@ -75,15 +75,61 @@ void VarDeclareNode::IRGenerate(X4A_Ctx& context){
             break;
         }
     }
+    //先分配空间
     llvm::AllocaInst* memAlloc=context.llvmBuilder_->CreateAlloca(varType, nullptr, name_);
     context.llvmSymTable_[name_]=memAlloc;
-    llvm::Value* valPtr=value_->IRGenerate(context);
-    context.llvmBuilder_->CreateStore(valPtr, memAlloc);
+    //赋值吗？先判空
+    if(value_){
+        llvm::Value* valPtr=value_->IRGenerate(context);
+        context.llvmBuilder_->CreateStore(valPtr, memAlloc);
+    }
     return;
+}
+
+void AssignStmtNode::IRGenerate(X4A_Ctx& context){
+    llvm::Value* rightValue=rightValue_->IRGenerate(context);
+    if(rightValue==NULL) return;
+    else{
+        VarReferNode* tmpVar=(VarReferNode*)leftValue_;
+        llvm::AllocaInst* memAlloc=context.llvmSymTable_[tmpVar->GetName()];
+        if(memAlloc){
+            context.llvmBuilder_->CreateStore(rightValue, memAlloc);
+            return;
+        }
+        else return;
+    }
 }
 
 void StmtLists::IRGenerate(X4A_Ctx& context){
     for (size_t i = 0; i < stmts_.size(); ++i) {
         stmts_[i]->IRGenerate(context);
     }
+}
+
+void BlockNode::IRGenerate(X4A_Ctx& context){
+    for (size_t i = 0; i < stmts_.size(); ++i) {
+        stmts_[i]->IRGenerate(context);
+    }
+}
+
+void IfElseNode::IRGenerate(X4A_Ctx& context){
+    llvm::Value* cond=condition_->IRGenerate(context);
+    llvm::Value* result=context.llvmBuilder_->CreateICmpNE(cond, llvm::ConstantInt::get(cond->getType(), 0),"conditionRes");
+    llvm::Function* parentFunc=context.llvmBuilder_->GetInsertBlock()->getParent();
+    llvm::BasicBlock* ifAction=llvm::BasicBlock::Create(*context.llvmContext_,"ifAction",parentFunc);
+    llvm::BasicBlock* elseAction=llvm::BasicBlock::Create(*context.llvmContext_,"elseAction",parentFunc);
+    llvm::BasicBlock* continueCode=llvm::BasicBlock::Create(*context.llvmContext_,"continue",parentFunc);
+    context.llvmBuilder_->CreateCondBr(result, ifAction, elseAction);
+
+    context.llvmBuilder_->SetInsertPoint(ifAction);
+    ifBlock_->IRGenerate(context);
+    context.llvmBuilder_->CreateBr(continueCode);
+
+    if(elseAction){
+        context.llvmBuilder_->SetInsertPoint(elseAction);
+        elseBlock_->IRGenerate(context);
+        context.llvmBuilder_->CreateBr(continueCode);
+    }
+
+    context.llvmBuilder_->SetInsertPoint(continueCode);
 }

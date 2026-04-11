@@ -1,3 +1,12 @@
-Num64 a=128;
-Char x='?';
-Num64 b=a*2;
+Num64 b;
+Num64 a=127;
+Num64 x=9;
+if(x>a){
+    x=x+3;
+    b=a-x;
+}
+else{
+    x=x*2;
+    b=a+x;
+}
+b=b*2;

@@ -17,9 +17,9 @@ enum BinaryOP{
     SUB,
     MUL,
     DIV,
-    ASSIGN,
     HIGHER,
     LOWER,
+    EQUAL,
 };
 
 class Node{
@@ -84,6 +84,7 @@ public:
     VarReferNode(std::string name) : name_(name){}
     llvm::Value* IRGenerate(X4A_Ctx& context);
     void ShowASTNode();
+    std::string GetName() const { return name_; }
 };
 
 class VarDeclareNode:public StmtNode{
@@ -96,11 +97,42 @@ public:
     void ShowASTNode();
 };
 
+class AssignStmtNode: public StmtNode{
+    ExprNode* leftValue_;
+    ExprNode* rightValue_;
+public:
+    AssignStmtNode(ExprNode* leftValue, ExprNode* rightValue) : leftValue_(leftValue), rightValue_(rightValue){}
+    void IRGenerate(X4A_Ctx& context);
+    void ShowASTNode();
+};
+
 class StmtLists: public Node{
     std::vector<StmtNode*> stmts_;
 public:
     StmtLists() {}
+    StmtLists(std::vector<StmtNode*> stmts) : stmts_(stmts){}
     void IRGenerate(X4A_Ctx& context);
     void AddStmt(StmtNode* stmt);
     void ShowAST();
+};
+
+class BlockNode: public Node{
+    std::vector<StmtNode*> stmts_;
+public:    
+    BlockNode() {}
+    BlockNode(std::vector<StmtNode*> stmts) : stmts_(stmts){}
+    BlockNode operator =(const BlockNode& other);
+    void IRGenerate(X4A_Ctx& context);
+    void AddStmt(StmtNode* stmt);
+    void ShowASTNode();
+};
+
+class IfElseNode: public StmtNode{
+    ExprNode* condition_;
+    BlockNode* ifBlock_;
+    BlockNode* elseBlock_;
+public:
+    IfElseNode(ExprNode* condition, BlockNode* ifBlock, BlockNode* elseBlock) : condition_(condition), ifBlock_(ifBlock), elseBlock_(elseBlock){}
+    void IRGenerate(X4A_Ctx& context);
+    void ShowASTNode();
 };
