@@ -12,6 +12,8 @@ extern "C" int yywrap() { return 1;}
 "else"                      {return ELSE;}
 "Num64"                     {yylval.type_=QWORD;return TYPE;}
 "Num32"                     {yylval.type_=DWORD;return TYPE;}
+"Num16"                     {yylval.type_=WORD;return TYPE;}
+"Num8"                      {yylval.type_=BYTE;return TYPE;}
 "Char"                      {yylval.type_=CHAR;return TYPE;}
 [a-zA-Z][a-zA-Z0-9_]*       {yylval.str=new std::string(yytext, yyleng); return VARIABLE;} 
 [0-9]+                      {yylval.num_=std::stoll(yytext); return NUMBER;} 
