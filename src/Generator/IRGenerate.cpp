@@ -32,6 +32,10 @@ llvm::Type* Trans2LLVMType(Types type_,X4A_Ctx& context){
             return llvm::Type::getVoidTy(*context.llvmContext_);
             break;
         }
+        case STR:{
+            return llvm::PointerType::get(*context.llvmContext_, 0);
+            break;
+        }
         default:{
             return llvm::Type::getVoidTy(*context.llvmContext_);
             break;
@@ -39,12 +43,16 @@ llvm::Type* Trans2LLVMType(Types type_,X4A_Ctx& context){
     }
 }
 
-llvm::Value* NumberNode::IRGenerate(X4A_Ctx& context){
+llvm::Value* NumberNode::IRGenerate(X4A_Ctx& context){  //所有数值默认64位
     return llvm::ConstantInt::get(llvm::Type::getInt64Ty(*context.llvmContext_),value_, true);
 }
 
 llvm::Value* CharNode::IRGenerate(X4A_Ctx& context){
     return llvm::ConstantInt::get(llvm::Type::getInt8Ty(*context.llvmContext_),value_, false);
+}
+
+llvm::Value* StringNode::IRGenerate(X4A_Ctx& context){
+    return context.llvmBuilder_->CreateGlobalString(value_);
 }
 
 llvm::Value* BinaryOPNode::IRGenerate(X4A_Ctx& context){

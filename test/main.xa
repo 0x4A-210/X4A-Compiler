@@ -1,7 +1,1 @@
-Num64 func(Num64 a,Num64 b){
-    Num64 x=a+1;
-    Num64 y=b*3;
-    return x+y;
-}
-Num64 g;
-g=func(g+1,g+2);
+String s1="hello";

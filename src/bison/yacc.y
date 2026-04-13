@@ -8,6 +8,7 @@
     class StmtLists; 
     class NumberNode;
     class CharNode; 
+    class StringNode;
     class BinaryOPNode; 
     class VarReferNode; 
     class VarDeclareNode; 
@@ -37,6 +38,7 @@
     std::string* str; 
     long long num_;
     char charac_; 
+    std::string* strVal_;
     BinaryOP op_; 
     Types type_;
     ExprNode* expr_; 
@@ -50,8 +52,9 @@
 %token <type_> TYPE
 %token <num_> NUMBER 
 %token <charac_> CHARACTER 
+%token<strVal_> STRING
 %token <op_> HIGHEROP LOWEROP ADDOP SUBOP MULOP DIVOP EQUALOP 
-%token IF ELSE COMMA LPAREN RPAREN LBRACE RBRACE ASSIGN RET END
+%token STD_PRINT STD_SCAN IF ELSE COMMA LPAREN RPAREN LBRACE RBRACE ASSIGN RET END
 // 优先级与结合性（先乘除后加减） 
 %left EQUALOP
 %left HIGHEROP LOWEROP
@@ -165,6 +168,10 @@ Stmt:
 expr: 
   NUMBER { $$ = new NumberNode($1); } 
   | CHARACTER { $$ = new CharNode($1); } 
+  | STRING{
+    $$ = new StringNode($1->substr(1,$1->size()-2));  //去除开头的两个双引号
+    delete $1;
+  }
   | IDENTITY { 
       $$ = new VarReferNode(*$1); 
       delete $1;

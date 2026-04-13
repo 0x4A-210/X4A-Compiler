@@ -41,6 +41,10 @@ void CharNode::ShowASTNode(){
     std::cout<<"[Char Type] value = '"<<value_<<"'";
 }
 
+void StringNode::ShowASTNode(){
+    std::cout<<"[String Type] value = \""<<value_<<"\"";
+}
+
 void BinaryOPNode::ShowASTNode(){
     std::cout<<"[Binary Operation] operator = ";
     switch (op_){

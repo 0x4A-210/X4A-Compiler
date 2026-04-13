@@ -9,7 +9,7 @@ enum Types{
     WORD,
     BYTE,
     CHAR,
-    STRING,
+    STR,
     VOID
 };
 enum BinaryOP{
@@ -66,6 +66,14 @@ class CharNode:public ExprNode{
 public:
     CharNode(char value) : value_(value){}
     llvm::Value* IRGenerate(X4A_Ctx& context) override; 
+    void ShowASTNode();
+};
+
+class StringNode: public ExprNode{
+    std::string value_;
+public:
+    StringNode(const std::string& value) : value_(value){}
+    llvm::Value* IRGenerate(X4A_Ctx& context) override;
     void ShowASTNode();
 };
 

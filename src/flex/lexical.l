@@ -8,6 +8,8 @@ extern "C" int yywrap() { return 1;}
 %% 
 [ \t]                       ; 
 \n                          {lineNo+=1;}
+"Print"                     {return STD_PRINT;}
+"Scan"                      {return STD_SCAN;}
 "return"                    {return RET;}
 "if"                        {return IF;}
 "else"                      {return ELSE;}
@@ -17,6 +19,8 @@ extern "C" int yywrap() { return 1;}
 "Num8"                      {yylval.type_=BYTE;return TYPE;}
 "Char"                      {yylval.type_=CHAR;return TYPE;}
 "Void"                      {yylval.type_=VOID;return TYPE;}
+"String"                    {yylval.type_=STR; return TYPE;}
+\"([^\\\"]|\\.)*\"          {yylval.strVal_=new std::string(yytext,yyleng); return STRING;}
 [a-zA-Z][a-zA-Z0-9_]*       {yylval.str=new std::string(yytext, yyleng); return IDENTITY;} 
 [0-9]+                      {yylval.num_=std::stoll(yytext); return NUMBER;} 
 "'"([\x20-\x7E])"'"         {yylval.charac_=yytext[1]; return CHARACTER;}
