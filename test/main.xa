@@ -1,12 +1,7 @@
-Num64 b;
-Num64 a=127;
-Num64 x=9;
-if(x>a){
-    x=x+3;
-    b=a-x;
+Num64 func(Num64 a,Num64 b){
+    Num64 x=a+1;
+    Num64 y=b*3;
+    return x+y;
 }
-else{
-    x=x*2;
-    b=a+x;
-}
-b=b*2;
+Num64 g;
+g=func(g+1,g+2);

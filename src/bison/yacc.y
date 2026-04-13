@@ -1,7 +1,7 @@
 %define parse.error verbose
 // 新增：这个块的代码会被写入parser.hpp，解决类型未知问题 
 %code requires { 
-    // 前向声明，告诉编译器ExprNode和StmtNode是类，指针可正常使用 
+    // 前向声明，告诉编译器这些东西是类，指针可正常使用 
     class Node; 
     class ExprNode; 
     class StmtNode; 
@@ -11,7 +11,10 @@
     class BinaryOPNode; 
     class VarReferNode; 
     class VarDeclareNode; 
-    class ExprStmtNode;
+    class FuncDefineNode;
+    class FuncCallNode;
+    class LegalExprStmtNode;
+    class ReturnNode;
     enum BinaryOP; 
     enum Types;
 } 
@@ -39,14 +42,16 @@
     ExprNode* expr_; 
     StmtNode* stmt_; 
     BlockNode* block_;
+    std::vector<ExprNode*>* callArgs_;
+    std::vector<std::pair<Types,std::string>>* declareArgs_;
 } 
 // 声明token（和lex.l完全对应） 
-%token <str> VARIABLE
+%token <str> IDENTITY
 %token <type_> TYPE
 %token <num_> NUMBER 
 %token <charac_> CHARACTER 
 %token <op_> HIGHEROP LOWEROP ADDOP SUBOP MULOP DIVOP EQUALOP 
-%token IF ELSE LPAREN RPAREN LBRACE RBRACE ASSIGN END
+%token IF ELSE COMMA LPAREN RPAREN LBRACE RBRACE ASSIGN RET END
 // 优先级与结合性（先乘除后加减） 
 %left EQUALOP
 %left HIGHEROP LOWEROP
@@ -57,11 +62,53 @@
 %type <stmt_> Stmt
 %type<block_> CodeBlock
 %type<block_> Statements 
+%type<callArgs_> CallArgs
+%type<callArgs_> CallArgList
+%type<declareArgs_> DeclareArgs
+%type<declareArgs_> DeclareArgList
 %start program_root 
 %% program_root: 
   program_root Stmt { program.AddStmt($2); } 
   | 
   ; 
+
+CallArgs:
+  expr{
+    $$ =new std::vector<ExprNode*> ();
+    $$->push_back($1);
+  }
+  | CallArgs COMMA expr{
+    $1->push_back($3);
+    $$ = $1;
+  }
+  ;
+
+CallArgList:
+  {$$= new std::vector<ExprNode*> ();}
+  | CallArgs{
+    $$ =$1;
+  }
+  ;
+
+DeclareArgs:
+  TYPE IDENTITY{
+    $$ = new std::vector<std::pair<Types,std::string>> ();
+    $$->push_back(std::pair<Types,std::string>($1,std::string(*$2)));
+    delete $2;
+  }
+  | DeclareArgs COMMA TYPE IDENTITY{
+    $1->push_back(std::pair<Types,std::string>($3,std::string(*$4)));
+    delete $4;
+    $$ = $1;
+  }
+  ;
+
+DeclareArgList:
+  {$$ = new std::vector<std::pair<Types,std::string>> ();}
+  | DeclareArgs{
+    $$ =$1;
+  }
+  ;
 
 Statements:
   {
@@ -82,24 +129,43 @@ CodeBlock:
   ;
 
 Stmt: 
-  TYPE VARIABLE ASSIGN expr END  //变量声明同时赋值
+  TYPE IDENTITY ASSIGN expr END  //变量声明同时赋值
     { 
         $$ = new VarDeclareNode(*$2, $4,$1); 
         delete $2;
     }
-  | TYPE VARIABLE END{  //变量只声明
+  | TYPE IDENTITY END{  //变量只声明
     $$ = new VarDeclareNode(*$2,NULL,$1);
     delete $2;
   }
   | IF LPAREN expr RPAREN CodeBlock {$$ = new IfElseNode($3,$5,NULL);}
   | IF LPAREN expr RPAREN CodeBlock ELSE CodeBlock{$$ =new IfElseNode($3,$5,$7);}
   | expr ASSIGN expr END {$$ = new AssignStmtNode($1,$3);}
+  | TYPE IDENTITY LPAREN DeclareArgList RPAREN{
+    $$ = new FuncDefineNode(*$2,$1,NULL,*$4);
+    delete $2;
+    delete $4;
+  }
+  | TYPE IDENTITY LPAREN DeclareArgList RPAREN CodeBlock{
+    $$ = new FuncDefineNode(*$2,$1,$6,*$4);
+    delete $2;
+    delete $4;
+  }
+  | expr END{
+    if(!$1->ValidIndependExpr()){
+      yyerror("Ilegal Stand Alone Expr");
+    }
+    $$ = new LegalExprStmtNode($1);
+  }
+  | RET expr END{
+    $$ = new ReturnNode($2);
+  }
   ;
 
 expr: 
   NUMBER { $$ = new NumberNode($1); } 
   | CHARACTER { $$ = new CharNode($1); } 
-  | VARIABLE { 
+  | IDENTITY { 
       $$ = new VarReferNode(*$1); 
       delete $1;
     } 
@@ -110,5 +176,10 @@ expr:
   | expr HIGHEROP expr { $$ = new BinaryOPNode($1, $2, $3);}
   | expr LOWEROP expr { $$ = new BinaryOPNode($1, $2, $3);}
   | expr EQUALOP expr {$$ = new BinaryOPNode($1, $2, $3);}
+  | IDENTITY LPAREN CallArgList RPAREN{
+      $$ = new FuncCallNode(*$1,*$3);
+      delete $1;
+      delete $3;
+    }
   ;
 %%

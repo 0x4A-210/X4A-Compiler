@@ -1,5 +1,38 @@
 #include"Node.h"
 #include<iostream>
+std::string Type2String(Types type_){
+    switch(type_){
+        case QWORD:{
+            return "Num64";
+            break;
+        }
+        case DWORD:{
+            return "Num32";
+            break;
+        }
+        case WORD:{
+            return "Num16";
+            break;
+        }
+        case BYTE:{
+            return "Num8";
+            break;
+        }
+        case CHAR:{
+            return "Char";
+            break;
+        }
+        case VOID:{
+            return "Void";
+            break;
+        }
+        default:{
+            return "unknown type, default regard as Num64";
+            break;
+        }
+    }
+}
+
 void NumberNode::ShowASTNode(){
     std::cout<<"[Number Type] value = "<<value_;
 }
@@ -80,8 +113,8 @@ void VarDeclareNode::ShowASTNode(){
             std::cout<<"Char";
             break;
         }
-        case PTR:{
-            std::cout<<"Point";
+        case VOID:{
+            std::cout<<"Void";
             break;
         }
         default:{
@@ -134,6 +167,15 @@ BlockNode BlockNode::operator =(const BlockNode& other){
     return *this;
 }
 
+StmtNode* BlockNode::FetchStmts(int idx){
+    if(idx<stmts_.size()) return stmts_[idx];
+    else return NULL;
+}
+
+int BlockNode::StmtNums(){
+    return stmts_.size();
+}
+
 void IfElseNode::ShowASTNode(){
     std::cout<<"[If-Else Statement] condition: {";
     condition_->ShowASTNode();
@@ -144,4 +186,38 @@ void IfElseNode::ShowASTNode(){
     std::cout<<"[If-Else Statement] else block: {"<<std::endl;
     elseBlock_->ShowASTNode();
     std::cout<<"}"<<std::endl;
+}
+
+void FuncDefineNode::ShowASTNode(){
+    std::cout<<"[Function Definition] name = \""<<funcName_<<"\""<<std::endl;
+    std::cout<<"[Function Definition] parameters: {"<<std::endl;
+    for(size_t i=0;i<paramList_.size();++i){
+        std::cout<<"Type: "<<Type2String(paramList_[i].first)<<", Name: "<<paramList_[i].second<<std::endl;
+    }
+    std::cout<<"}"<<std::endl;
+    std::cout<<"[Function Definition] body: {"<<std::endl;
+    funcBody_->ShowASTNode();
+    std::cout<<"}";
+}
+
+void FuncCallNode::ShowASTNode(){
+    std::cout<<"[Function Call] function name = \""<<funcName_<<"\""<<std::endl;
+    std::cout<<"[Function Call] arguments: {"<<std::endl;
+    for(size_t i=0;i<paramList_.size();++i){
+        paramList_[i]->ShowASTNode();
+        std::cout<<std::endl;
+    }
+    std::cout<<"}";
+}
+
+void LegalExprStmtNode::ShowASTNode(){
+    std::cout<<"[Legal Independ Expression] value: {";
+    indepExpr_->ShowASTNode();
+    std::cout<<"}";
+}
+
+void ReturnNode::ShowASTNode(){
+    std::cout<<"[Return Statement] return value: {";
+    retValue_->ShowASTNode();
+    std::cout<<"}";
 }

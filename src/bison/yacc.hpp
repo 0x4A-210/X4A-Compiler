@@ -47,7 +47,7 @@ extern int yydebug;
 /* "%code requires" blocks.  */
 #line 3 "/home/k40/X4A/src/bison/yacc.y"
  
-    // 前向声明，告诉编译器ExprNode和StmtNode是类，指针可正常使用 
+    // 前向声明，告诉编译器这些东西是类，指针可正常使用 
     class Node; 
     class ExprNode; 
     class StmtNode; 
@@ -57,11 +57,14 @@ extern int yydebug;
     class BinaryOPNode; 
     class VarReferNode; 
     class VarDeclareNode; 
-    class ExprStmtNode;
+    class FuncDefineNode;
+    class FuncCallNode;
+    class LegalExprStmtNode;
+    class ReturnNode;
     enum BinaryOP; 
     enum Types;
 
-#line 65 "/home/k40/X4A/src/bison/yacc.hpp"
+#line 68 "/home/k40/X4A/src/bison/yacc.hpp"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -72,7 +75,7 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    VARIABLE = 258,                /* VARIABLE  */
+    IDENTITY = 258,                /* IDENTITY  */
     TYPE = 259,                    /* TYPE  */
     NUMBER = 260,                  /* NUMBER  */
     CHARACTER = 261,               /* CHARACTER  */
@@ -85,12 +88,14 @@ extern int yydebug;
     EQUALOP = 268,                 /* EQUALOP  */
     IF = 269,                      /* IF  */
     ELSE = 270,                    /* ELSE  */
-    LPAREN = 271,                  /* LPAREN  */
-    RPAREN = 272,                  /* RPAREN  */
-    LBRACE = 273,                  /* LBRACE  */
-    RBRACE = 274,                  /* RBRACE  */
-    ASSIGN = 275,                  /* ASSIGN  */
-    END = 276                      /* END  */
+    COMMA = 271,                   /* COMMA  */
+    LPAREN = 272,                  /* LPAREN  */
+    RPAREN = 273,                  /* RPAREN  */
+    LBRACE = 274,                  /* LBRACE  */
+    RBRACE = 275,                  /* RBRACE  */
+    ASSIGN = 276,                  /* ASSIGN  */
+    RET = 277,                     /* RET  */
+    END = 278                      /* END  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -99,7 +104,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 33 "/home/k40/X4A/src/bison/yacc.y"
+#line 36 "/home/k40/X4A/src/bison/yacc.y"
  
     std::string* str; 
     long long num_;
@@ -109,8 +114,10 @@ union YYSTYPE
     ExprNode* expr_; 
     StmtNode* stmt_; 
     BlockNode* block_;
+    std::vector<ExprNode*>* callArgs_;
+    std::vector<std::pair<Types,std::string>>* declareArgs_;
 
-#line 114 "/home/k40/X4A/src/bison/yacc.hpp"
+#line 121 "/home/k40/X4A/src/bison/yacc.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

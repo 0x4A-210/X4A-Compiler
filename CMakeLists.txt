@@ -59,7 +59,7 @@ set(SOURCE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/AST/Node.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Generator/IRGenerate.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Lib/Lib.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Tools/Runtime.cpp
     ${BISON_XAC_Parser_OUTPUTS}
     ${FLEX_XAC_Scanner_OUTPUTS}
 )
@@ -76,7 +76,7 @@ target_include_directories(XAC PRIVATE
     ${PROJECT_SOURCE_DIR}/src/AST
     ${PROJECT_SOURCE_DIR}/src/bison
     ${PROJECT_SOURCE_DIR}/src/Generator
-    ${PROJECT_SOURCE_DIR}/src/Lib
+    ${PROJECT_SOURCE_DIR}/src/Tools
     ${LLVM_INCLUDE_DIRS}
 )
 

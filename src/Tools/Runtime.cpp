@@ -97,8 +97,8 @@ void X4A_Run(int cliCount,char* argv[]){
 
         //创建主函数
         llvm::Function* mainFunc = llvm::Function::Create(llvm::FunctionType::get(llvm::Type::getInt32Ty(*context.llvmContext_),false),llvm::Function::ExternalLinkage,"main",context.llvmModule_.get());
-        llvm::BasicBlock* entry = llvm::BasicBlock::Create(*context.llvmContext_,"entry",mainFunc);
-        context.llvmBuilder_->SetInsertPoint(entry);
+        llvm::BasicBlock* mainEntry = llvm::BasicBlock::Create(*context.llvmContext_,"entry",mainFunc);
+        context.llvmBuilder_->SetInsertPoint(mainEntry);
         program.IRGenerate(context); //生成IR
         //创建返回指令
         context.llvmBuilder_->CreateRet(llvm::ConstantInt::get(llvm::Type::getInt32Ty(*context.llvmContext_), 0));

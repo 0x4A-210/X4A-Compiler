@@ -9,8 +9,8 @@ enum Types{
     WORD,
     BYTE,
     CHAR,
-    PTR,
-    Function
+    STRING,
+    VOID
 };
 enum BinaryOP{
     ADD=1,
@@ -36,6 +36,7 @@ class ExprNode:public Node{
 public:
     virtual llvm::Value* IRGenerate(X4A_Ctx& context) =0;  //这里返回类型必须是一个llvm::Value类型
     virtual void ShowASTNode() =0;
+    virtual bool ValidIndependExpr() {return false;}
 };
 
 class StmtNode:public Node{
@@ -81,7 +82,7 @@ public:
 class VarReferNode: public ExprNode{
     std::string name_;
 public:
-    VarReferNode(std::string name) : name_(name){}
+    VarReferNode(const std::string& name) : name_(name){}
     llvm::Value* IRGenerate(X4A_Ctx& context);
     void ShowASTNode();
     std::string GetName() const { return name_; }
@@ -92,7 +93,7 @@ class VarDeclareNode:public StmtNode{
     std::string name_;
     ExprNode* value_;
 public:
-    VarDeclareNode(std::string name, ExprNode* value,Types type=QWORD) : name_(name), value_(value),type_(type){}
+    VarDeclareNode(const std::string& name, ExprNode* value,Types type=QWORD) : name_(name), value_(value),type_(type){}
     void IRGenerate(X4A_Ctx& context);
     void ShowASTNode();
 };
@@ -122,6 +123,8 @@ public:
     BlockNode() {}
     BlockNode(std::vector<StmtNode*> stmts) : stmts_(stmts){}
     BlockNode operator =(const BlockNode& other);
+    StmtNode* FetchStmts(int idx);
+    int StmtNums();
     void IRGenerate(X4A_Ctx& context);
     void AddStmt(StmtNode* stmt);
     void ShowASTNode();
@@ -133,6 +136,43 @@ class IfElseNode: public StmtNode{
     BlockNode* elseBlock_;
 public:
     IfElseNode(ExprNode* condition, BlockNode* ifBlock, BlockNode* elseBlock) : condition_(condition), ifBlock_(ifBlock), elseBlock_(elseBlock){}
+    void IRGenerate(X4A_Ctx& context);
+    void ShowASTNode();
+};
+
+class FuncDefineNode: public StmtNode{  //声明和定义采用一种结构，如果BlockNode为空表示只声明
+    std::string funcName_;
+    Types retType_;
+    BlockNode* funcBody_;
+    std::vector<std::pair<Types,std::string>> paramList_;
+public:
+    FuncDefineNode(const std::string& funcName,Types retType,BlockNode* funcBody,const std::vector<std::pair<Types,std::string>>& paramList): funcName_(funcName),retType_(retType),funcBody_(funcBody), paramList_(paramList) {}
+    void IRGenerate(X4A_Ctx& context);
+    void ShowASTNode();
+};
+
+class FuncCallNode: public ExprNode{
+    std::string funcName_;
+    std::vector<ExprNode*> paramList_;
+public:
+    FuncCallNode(const std::string& funcName,const std::vector<ExprNode*> paramList): funcName_(funcName), paramList_(paramList) {}
+    llvm::Value* IRGenerate(X4A_Ctx& context);
+    void ShowASTNode();
+    bool ValidIndependExpr() override {return true;}
+};
+
+class LegalExprStmtNode: public StmtNode{
+    ExprNode* indepExpr_;
+public:
+    LegalExprStmtNode(ExprNode* indepExpr): indepExpr_(indepExpr) {}
+    void IRGenerate(X4A_Ctx& context);
+    void ShowASTNode();
+};
+
+class ReturnNode: public StmtNode{
+    ExprNode* retValue_;
+public:
+    ReturnNode(ExprNode* retValue): retValue_(retValue) {}
     void IRGenerate(X4A_Ctx& context);
     void ShowASTNode();
 };

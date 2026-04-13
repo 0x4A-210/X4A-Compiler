@@ -14,4 +14,5 @@ struct X4A_Ctx{
     std::unique_ptr<llvm::Module> llvmModule_;
     std::unique_ptr<llvm::IRBuilder<>> llvmBuilder_;
     std::map<std::string, llvm::AllocaInst*> llvmSymTable_;
+    std::map<std::string, llvm::Function*> llvmFuncTable_;
 };
