@@ -54,7 +54,7 @@
 %token <charac_> CHARACTER 
 %token<strVal_> STRING
 %token <op_> HIGHEROP LOWEROP ADDOP SUBOP MULOP DIVOP EQUALOP 
-%token STD_PRINT STD_SCAN IF ELSE COMMA LPAREN RPAREN LBRACE RBRACE ASSIGN RET END
+%token IF ELSE COMMA LPAREN RPAREN LBRACE RBRACE ASSIGN RET END
 // 优先级与结合性（先乘除后加减） 
 %left EQUALOP
 %left HIGHEROP LOWEROP
@@ -144,12 +144,12 @@ Stmt:
   | IF LPAREN expr RPAREN CodeBlock {$$ = new IfElseNode($3,$5,NULL);}
   | IF LPAREN expr RPAREN CodeBlock ELSE CodeBlock{$$ =new IfElseNode($3,$5,$7);}
   | expr ASSIGN expr END {$$ = new AssignStmtNode($1,$3);}
-  | TYPE IDENTITY LPAREN DeclareArgList RPAREN{
+  | TYPE IDENTITY LPAREN DeclareArgList RPAREN{  //函数仅声明
     $$ = new FuncDefineNode(*$2,$1,NULL,*$4);
     delete $2;
     delete $4;
   }
-  | TYPE IDENTITY LPAREN DeclareArgList RPAREN CodeBlock{
+  | TYPE IDENTITY LPAREN DeclareArgList RPAREN CodeBlock{  //函数声明的同时定义
     $$ = new FuncDefineNode(*$2,$1,$6,*$4);
     delete $2;
     delete $4;

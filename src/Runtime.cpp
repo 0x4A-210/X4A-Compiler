@@ -1,7 +1,7 @@
 #include<cstdio>
 #include<iostream>
 #include<fstream>
-#include"../Generator/IRGenerate.h"
+#include"Generator/IRGenerate.h"
 // Target 相关（核心）
 #include"llvm/Support/TargetSelect.h"
 #include"llvm/Target/TargetMachine.h"
@@ -16,7 +16,8 @@
 
 // Target triple
 #include"llvm/TargetParser/Host.h"
-#include"../AST/Node.h"
+#include"./AST/Node.h"
+#include"./Tools/StdLib.h"
 extern int yyparse();
 extern StmtLists program;
 extern FILE* yyin;

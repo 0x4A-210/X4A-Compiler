@@ -1,4 +1,4 @@
-#include"Tools/Runtime.h"
+#include"Runtime.h"
 int main(int argc,char* argv[]){
     X4A_Run(argc,argv);
     return 0;

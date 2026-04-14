@@ -6,6 +6,8 @@
 #include"llvm/IR/Type.h"
 #include "llvm/ADT/APInt.h"
 #include"../Tools/Daemon.h"
+#include"../Tools/StdLib.h"
+#include<iostream>
 llvm::Type* Trans2LLVMType(Types type_,X4A_Ctx& context){
     switch(type_){
         case QWORD:{
@@ -169,6 +171,10 @@ void ReturnNode::IRGenerate(X4A_Ctx& context){
 
 void FuncDefineNode::IRGenerate(X4A_Ctx& context){
     InsertD guard(*context.llvmBuilder_);
+    if(standardLibFunc.find(funcName_)!= standardLibFunc.end()){
+        std::cerr<<"You can not define a func having the same name with std func"<<std::endl;
+        exit(1);
+    }
     llvm::Type* retType=Trans2LLVMType(retType_, context);
     std::vector<llvm::Type*> paramTypes;
     for(int i=0;i<paramList_.size();++i){
@@ -210,8 +216,12 @@ void FuncDefineNode::IRGenerate(X4A_Ctx& context){
 }
 
 llvm::Value* FuncCallNode::IRGenerate(X4A_Ctx& context){
-    llvm::Function* func=context.llvmFuncTable_[funcName_];
-    if(!func) return NULL;
+    llvm::Function* func=NULL;
+    if(standardLibFunc.find(funcName_)!= standardLibFunc.end()){
+        RuntimeResolveGLIBC(context,funcName_);
+    }
+    func=context.llvmFuncTable_[funcName_];
+    if(func==NULL) return NULL;
     std::vector<llvm::Value*> paramValues;
     for(int i=0;i<paramList_.size();++i){
         llvm::Value* tmpParamVal=paramList_[i]->IRGenerate(context);

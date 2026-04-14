@@ -88,18 +88,16 @@ extern int yydebug;
     MULOP = 267,                   /* MULOP  */
     DIVOP = 268,                   /* DIVOP  */
     EQUALOP = 269,                 /* EQUALOP  */
-    STD_PRINT = 270,               /* STD_PRINT  */
-    STD_SCAN = 271,                /* STD_SCAN  */
-    IF = 272,                      /* IF  */
-    ELSE = 273,                    /* ELSE  */
-    COMMA = 274,                   /* COMMA  */
-    LPAREN = 275,                  /* LPAREN  */
-    RPAREN = 276,                  /* RPAREN  */
-    LBRACE = 277,                  /* LBRACE  */
-    RBRACE = 278,                  /* RBRACE  */
-    ASSIGN = 279,                  /* ASSIGN  */
-    RET = 280,                     /* RET  */
-    END = 281                      /* END  */
+    IF = 270,                      /* IF  */
+    ELSE = 271,                    /* ELSE  */
+    COMMA = 272,                   /* COMMA  */
+    LPAREN = 273,                  /* LPAREN  */
+    RPAREN = 274,                  /* RPAREN  */
+    LBRACE = 275,                  /* LBRACE  */
+    RBRACE = 276,                  /* RBRACE  */
+    ASSIGN = 277,                  /* ASSIGN  */
+    RET = 278,                     /* RET  */
+    END = 279                      /* END  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -122,7 +120,7 @@ union YYSTYPE
     std::vector<ExprNode*>* callArgs_;
     std::vector<std::pair<Types,std::string>>* declareArgs_;
 
-#line 126 "/home/k40/X4A/src/bison/yacc.hpp"
+#line 124 "/home/k40/X4A/src/bison/yacc.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;
