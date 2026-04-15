@@ -22,6 +22,11 @@ enum BinaryOP{
     EQUAL,
 };
 
+enum UnaryOP{
+    REF=1,
+    DE_REF
+};
+
 class Node{
 public:
     virtual ~Node() {}
@@ -37,6 +42,7 @@ public:
     virtual llvm::Value* IRGenerate(X4A_Ctx& context) =0;  //这里返回类型必须是一个llvm::Value类型
     virtual void ShowASTNode() =0;
     virtual bool ValidIndependExpr() {return false;}
+    virtual llvm::Value* LoadAddress(X4A_Ctx& context){ return NULL;}
 };
 
 class StmtNode:public Node{
@@ -77,6 +83,15 @@ public:
     void ShowASTNode();
 };
 
+class UnaryOPNode: public ExprNode{
+    UnaryOP op_;
+    ExprNode* expr_;
+public:
+    UnaryOPNode(UnaryOP op, ExprNode* expr) : op_(op), expr_(expr) {}
+    llvm::Value* IRGenerate(X4A_Ctx& context);
+    void ShowASTNode();
+};
+
 class BinaryOPNode:public ExprNode{
     ExprNode* left_;
     ExprNode* right_;
@@ -94,6 +109,7 @@ public:
     llvm::Value* IRGenerate(X4A_Ctx& context);
     void ShowASTNode();
     std::string GetName() const { return name_; }
+    llvm::Value* LoadAddress(X4A_Ctx& context) override;
 };
 
 class VarDeclareNode:public StmtNode{

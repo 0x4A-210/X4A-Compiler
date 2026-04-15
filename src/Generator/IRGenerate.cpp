@@ -8,43 +8,7 @@
 #include"../Tools/Daemon.h"
 #include"../Tools/StdLib.h"
 #include<iostream>
-llvm::Type* Trans2LLVMType(Types type_,X4A_Ctx& context){
-    switch(type_){
-        case QWORD:{
-            return llvm::Type::getInt64Ty(*context.llvmContext_);
-            break;
-        }
-        case DWORD:{
-            return llvm::Type::getInt32Ty(*context.llvmContext_);
-            break;
-        }
-        case WORD:{
-            return llvm::Type::getInt16Ty(*context.llvmContext_);
-            break;
-        }
-        case BYTE:{
-            return llvm::Type::getInt8Ty(*context.llvmContext_);
-            break;
-        }
-        case CHAR:{
-            return llvm::Type::getInt8Ty(*context.llvmContext_);
-            break;
-        }
-        case VOID:{
-            return llvm::Type::getVoidTy(*context.llvmContext_);
-            break;
-        }
-        case STR:{
-            return llvm::PointerType::get(*context.llvmContext_, 0);
-            break;
-        }
-        default:{
-            return llvm::Type::getVoidTy(*context.llvmContext_);
-            break;
-        }
-    }
-}
-
+#include"../Tools/Helper.h"
 llvm::Value* NumberNode::IRGenerate(X4A_Ctx& context){  //所有数值默认64位
     return llvm::ConstantInt::get(llvm::Type::getInt64Ty(*context.llvmContext_),value_, true);
 }
@@ -55,6 +19,38 @@ llvm::Value* CharNode::IRGenerate(X4A_Ctx& context){
 
 llvm::Value* StringNode::IRGenerate(X4A_Ctx& context){
     return context.llvmBuilder_->CreateGlobalString(value_);
+}
+
+llvm::Value* VarReferNode::LoadAddress(X4A_Ctx& context){
+    if(context.llvmSymTable_.find(name_)!=context.llvmSymTable_.end()){
+        return context.llvmSymTable_[name_];
+    }
+    else return NULL;
+}
+
+llvm::Value* VarReferNode::IRGenerate(X4A_Ctx& context){
+    llvm::AllocaInst* memAlloc=context.llvmSymTable_[name_];
+    if(memAlloc){
+        return context.llvmBuilder_->CreateLoad(memAlloc->getAllocatedType(),memAlloc,name_);
+    }
+    else return NULL;
+}
+
+llvm::Value* UnaryOPNode::IRGenerate(X4A_Ctx& context){
+    switch(op_){
+        case REF:{
+            return expr_->LoadAddress(context);
+            break;
+        }
+        case DE_REF:{
+            return NULL; //todo
+            break;
+        }
+        default:{
+            return NULL;
+            break;
+        }
+    }
 }
 
 llvm::Value* BinaryOPNode::IRGenerate(X4A_Ctx& context){
@@ -93,14 +89,6 @@ llvm::Value* BinaryOPNode::IRGenerate(X4A_Ctx& context){
             return NULL;
         }
     }
-}
-
-llvm::Value* VarReferNode::IRGenerate(X4A_Ctx& context){
-    llvm::AllocaInst* memAlloc=context.llvmSymTable_[name_];
-    if(memAlloc){
-        return context.llvmBuilder_->CreateLoad(memAlloc->getAllocatedType(),memAlloc,name_);
-    }
-    else return NULL;
 }
 
 void VarDeclareNode::IRGenerate(X4A_Ctx& context){

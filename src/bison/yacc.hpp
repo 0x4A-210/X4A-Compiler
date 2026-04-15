@@ -62,10 +62,12 @@ extern int yydebug;
     class FuncCallNode;
     class LegalExprStmtNode;
     class ReturnNode;
+    class UnaryOPNode;
     enum BinaryOP; 
     enum Types;
+    enum UnaryOP;
 
-#line 69 "/home/k40/X4A/src/bison/yacc.hpp"
+#line 71 "/home/k40/X4A/src/bison/yacc.hpp"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -81,23 +83,24 @@ extern int yydebug;
     NUMBER = 260,                  /* NUMBER  */
     CHARACTER = 261,               /* CHARACTER  */
     STRING = 262,                  /* STRING  */
-    HIGHEROP = 263,                /* HIGHEROP  */
-    LOWEROP = 264,                 /* LOWEROP  */
-    ADDOP = 265,                   /* ADDOP  */
-    SUBOP = 266,                   /* SUBOP  */
-    MULOP = 267,                   /* MULOP  */
-    DIVOP = 268,                   /* DIVOP  */
-    EQUALOP = 269,                 /* EQUALOP  */
-    IF = 270,                      /* IF  */
-    ELSE = 271,                    /* ELSE  */
-    COMMA = 272,                   /* COMMA  */
-    LPAREN = 273,                  /* LPAREN  */
-    RPAREN = 274,                  /* RPAREN  */
-    LBRACE = 275,                  /* LBRACE  */
-    RBRACE = 276,                  /* RBRACE  */
-    ASSIGN = 277,                  /* ASSIGN  */
-    RET = 278,                     /* RET  */
-    END = 279                      /* END  */
+    ADDR_OF = 263,                 /* ADDR_OF  */
+    HIGHEROP = 264,                /* HIGHEROP  */
+    LOWEROP = 265,                 /* LOWEROP  */
+    ADDOP = 266,                   /* ADDOP  */
+    SUBOP = 267,                   /* SUBOP  */
+    MULOP = 268,                   /* MULOP  */
+    DIVOP = 269,                   /* DIVOP  */
+    EQUALOP = 270,                 /* EQUALOP  */
+    IF = 271,                      /* IF  */
+    ELSE = 272,                    /* ELSE  */
+    COMMA = 273,                   /* COMMA  */
+    LPAREN = 274,                  /* LPAREN  */
+    RPAREN = 275,                  /* RPAREN  */
+    LBRACE = 276,                  /* LBRACE  */
+    RBRACE = 277,                  /* RBRACE  */
+    ASSIGN = 278,                  /* ASSIGN  */
+    RET = 279,                     /* RET  */
+    END = 280                      /* END  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -106,13 +109,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 37 "/home/k40/X4A/src/bison/yacc.y"
+#line 39 "/home/k40/X4A/src/bison/yacc.y"
  
     std::string* str; 
     long long num_;
     char charac_; 
     std::string* strVal_;
-    BinaryOP op_; 
+    BinaryOP binaryOP_; 
+    UnaryOP unaryOP_;
     Types type_;
     ExprNode* expr_; 
     StmtNode* stmt_; 
@@ -120,7 +124,7 @@ union YYSTYPE
     std::vector<ExprNode*>* callArgs_;
     std::vector<std::pair<Types,std::string>>* declareArgs_;
 
-#line 124 "/home/k40/X4A/src/bison/yacc.hpp"
+#line 128 "/home/k40/X4A/src/bison/yacc.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

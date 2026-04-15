@@ -1,6 +1,8 @@
 #include<cstdio>
 #include<iostream>
 #include<fstream>
+#include<string>
+#include<cstdlib>
 #include"Generator/IRGenerate.h"
 // Target 相关（核心）
 #include"llvm/Support/TargetSelect.h"
@@ -38,7 +40,12 @@ FILE* ParseCLI(int cliCount,char* argv[]){
     }
 }
 
-void Assembler(const X4A_Ctx& context,const char* dstFile){
+void Assembler(const X4A_Ctx& context,const char* dstFile,bool& linkTag){
+    std::string dstFileName(dstFile);
+    if(dstFileName.substr(dstFileName.size()-2,2)!=".o"){
+        dstFileName+=".o";
+        linkTag=true;
+    }
     llvm::InitializeNativeTarget();
     llvm::InitializeNativeTargetAsmPrinter();
     llvm::InitializeNativeTargetAsmPrinter();
@@ -61,7 +68,7 @@ void Assembler(const X4A_Ctx& context,const char* dstFile){
 
     // 5. 输出文件
     std::error_code err_code;
-    llvm::raw_fd_ostream dest(dstFile, err_code, llvm::sys::fs::OF_None);
+    llvm::raw_fd_ostream dest(dstFileName.c_str(), err_code, llvm::sys::fs::OF_None);
 
     if (err_code) {
         llvm::errs() << "Could not open file: " << err_code.message();
@@ -81,8 +88,9 @@ void Assembler(const X4A_Ctx& context,const char* dstFile){
     dest.flush();
 }
 
-void Linker(const X4A_Ctx& context){
-
+void Linker(const char* dstFile){
+    std::string shellCmd="clang "+std::string(dstFile)+".o"+" -o "+std::string(dstFile);
+    system(shellCmd.c_str());
     return;
 }
 
@@ -104,7 +112,11 @@ void X4A_Run(int cliCount,char* argv[]){
         //创建返回指令
         context.llvmBuilder_->CreateRet(llvm::ConstantInt::get(llvm::Type::getInt32Ty(*context.llvmContext_), 0));
         context.llvmModule_->print(llvm::outs(), NULL);  //打印输出IR，用于前期调试
-        Assembler(context, argv[2]); //生成目标文件
+        bool linkTag=false;
+        Assembler(context, argv[2],linkTag); //生成目标文件
+        if(linkTag){
+            Linker(argv[2]);
+        }
         fclose(yyin);
     }
     else{

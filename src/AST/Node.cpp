@@ -1,38 +1,6 @@
 #include"Node.h"
 #include<iostream>
-std::string Type2String(Types type_){
-    switch(type_){
-        case QWORD:{
-            return "Num64";
-            break;
-        }
-        case DWORD:{
-            return "Num32";
-            break;
-        }
-        case WORD:{
-            return "Num16";
-            break;
-        }
-        case BYTE:{
-            return "Num8";
-            break;
-        }
-        case CHAR:{
-            return "Char";
-            break;
-        }
-        case VOID:{
-            return "Void";
-            break;
-        }
-        default:{
-            return "unknown type, default regard as Num64";
-            break;
-        }
-    }
-}
-
+#include"../Tools/Helper.h"
 void NumberNode::ShowASTNode(){
     std::cout<<"[Number Type] value = "<<value_;
 }
@@ -43,6 +11,28 @@ void CharNode::ShowASTNode(){
 
 void StringNode::ShowASTNode(){
     std::cout<<"[String Type] value = \""<<value_<<"\"";
+}
+
+void UnaryOPNode::ShowASTNode(){
+    std::cout<<"[Unary Operation] operator = ";
+    switch (op_){
+        case REF:{
+            std::cout<<"'&'";
+            break;
+        }
+        case DE_REF:{
+            std::cout<<"'*'";
+            break;
+        }
+        default:{
+            std::cout<<"unknown operation";
+            break;
+        }
+    }
+    std::cout<<" ####### ";
+    std::cout<<"[Unary Operation] operand: {";
+    expr_->ShowASTNode();
+    std::cout<<"}";
 }
 
 void BinaryOPNode::ShowASTNode(){

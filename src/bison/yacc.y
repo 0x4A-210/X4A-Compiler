@@ -16,8 +16,10 @@
     class FuncCallNode;
     class LegalExprStmtNode;
     class ReturnNode;
+    class UnaryOPNode;
     enum BinaryOP; 
     enum Types;
+    enum UnaryOP;
 } 
 %{ 
     #include <iostream> 
@@ -39,7 +41,8 @@
     long long num_;
     char charac_; 
     std::string* strVal_;
-    BinaryOP op_; 
+    BinaryOP binaryOP_; 
+    UnaryOP unaryOP_;
     Types type_;
     ExprNode* expr_; 
     StmtNode* stmt_; 
@@ -53,13 +56,15 @@
 %token <num_> NUMBER 
 %token <charac_> CHARACTER 
 %token<strVal_> STRING
-%token <op_> HIGHEROP LOWEROP ADDOP SUBOP MULOP DIVOP EQUALOP 
+%token<unaryOP_> ADDR_OF
+%token <binaryOP_> HIGHEROP LOWEROP ADDOP SUBOP MULOP DIVOP EQUALOP 
 %token IF ELSE COMMA LPAREN RPAREN LBRACE RBRACE ASSIGN RET END
 // 优先级与结合性（先乘除后加减） 
 %left EQUALOP
 %left HIGHEROP LOWEROP
 %left ADDOP SUBOP 
-%left MULOP DIVOP 
+%left MULOP DIVOP
+%right ADDR_OF 
 // 语法规则入口 
 %type <expr_> expr 
 %type <stmt_> Stmt
@@ -166,7 +171,10 @@ Stmt:
   ;
 
 expr: 
-  NUMBER { $$ = new NumberNode($1); } 
+  ADDR_OF expr{
+    $$ = new UnaryOPNode($1,$2);
+  }
+  | NUMBER { $$ = new NumberNode($1); } 
   | CHARACTER { $$ = new CharNode($1); } 
   | STRING{
     $$ = new StringNode($1->substr(1,$1->size()-2));  //去除开头的两个双引号

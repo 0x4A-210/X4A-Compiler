@@ -67,7 +67,7 @@
 
 
 /* First part of user prologue.  */
-#line 22 "/home/k40/X4A/src/bison/yacc.y"
+#line 24 "/home/k40/X4A/src/bison/yacc.y"
  
     #include <iostream> 
     #include <vector> 
@@ -118,33 +118,34 @@ enum yysymbol_kind_t
   YYSYMBOL_NUMBER = 5,                     /* NUMBER  */
   YYSYMBOL_CHARACTER = 6,                  /* CHARACTER  */
   YYSYMBOL_STRING = 7,                     /* STRING  */
-  YYSYMBOL_HIGHEROP = 8,                   /* HIGHEROP  */
-  YYSYMBOL_LOWEROP = 9,                    /* LOWEROP  */
-  YYSYMBOL_ADDOP = 10,                     /* ADDOP  */
-  YYSYMBOL_SUBOP = 11,                     /* SUBOP  */
-  YYSYMBOL_MULOP = 12,                     /* MULOP  */
-  YYSYMBOL_DIVOP = 13,                     /* DIVOP  */
-  YYSYMBOL_EQUALOP = 14,                   /* EQUALOP  */
-  YYSYMBOL_IF = 15,                        /* IF  */
-  YYSYMBOL_ELSE = 16,                      /* ELSE  */
-  YYSYMBOL_COMMA = 17,                     /* COMMA  */
-  YYSYMBOL_LPAREN = 18,                    /* LPAREN  */
-  YYSYMBOL_RPAREN = 19,                    /* RPAREN  */
-  YYSYMBOL_LBRACE = 20,                    /* LBRACE  */
-  YYSYMBOL_RBRACE = 21,                    /* RBRACE  */
-  YYSYMBOL_ASSIGN = 22,                    /* ASSIGN  */
-  YYSYMBOL_RET = 23,                       /* RET  */
-  YYSYMBOL_END = 24,                       /* END  */
-  YYSYMBOL_YYACCEPT = 25,                  /* $accept  */
-  YYSYMBOL_program_root = 26,              /* program_root  */
-  YYSYMBOL_CallArgs = 27,                  /* CallArgs  */
-  YYSYMBOL_CallArgList = 28,               /* CallArgList  */
-  YYSYMBOL_DeclareArgs = 29,               /* DeclareArgs  */
-  YYSYMBOL_DeclareArgList = 30,            /* DeclareArgList  */
-  YYSYMBOL_Statements = 31,                /* Statements  */
-  YYSYMBOL_CodeBlock = 32,                 /* CodeBlock  */
-  YYSYMBOL_Stmt = 33,                      /* Stmt  */
-  YYSYMBOL_expr = 34                       /* expr  */
+  YYSYMBOL_ADDR_OF = 8,                    /* ADDR_OF  */
+  YYSYMBOL_HIGHEROP = 9,                   /* HIGHEROP  */
+  YYSYMBOL_LOWEROP = 10,                   /* LOWEROP  */
+  YYSYMBOL_ADDOP = 11,                     /* ADDOP  */
+  YYSYMBOL_SUBOP = 12,                     /* SUBOP  */
+  YYSYMBOL_MULOP = 13,                     /* MULOP  */
+  YYSYMBOL_DIVOP = 14,                     /* DIVOP  */
+  YYSYMBOL_EQUALOP = 15,                   /* EQUALOP  */
+  YYSYMBOL_IF = 16,                        /* IF  */
+  YYSYMBOL_ELSE = 17,                      /* ELSE  */
+  YYSYMBOL_COMMA = 18,                     /* COMMA  */
+  YYSYMBOL_LPAREN = 19,                    /* LPAREN  */
+  YYSYMBOL_RPAREN = 20,                    /* RPAREN  */
+  YYSYMBOL_LBRACE = 21,                    /* LBRACE  */
+  YYSYMBOL_RBRACE = 22,                    /* RBRACE  */
+  YYSYMBOL_ASSIGN = 23,                    /* ASSIGN  */
+  YYSYMBOL_RET = 24,                       /* RET  */
+  YYSYMBOL_END = 25,                       /* END  */
+  YYSYMBOL_YYACCEPT = 26,                  /* $accept  */
+  YYSYMBOL_program_root = 27,              /* program_root  */
+  YYSYMBOL_CallArgs = 28,                  /* CallArgs  */
+  YYSYMBOL_CallArgList = 29,               /* CallArgList  */
+  YYSYMBOL_DeclareArgs = 30,               /* DeclareArgs  */
+  YYSYMBOL_DeclareArgList = 31,            /* DeclareArgList  */
+  YYSYMBOL_Statements = 32,                /* Statements  */
+  YYSYMBOL_CodeBlock = 33,                 /* CodeBlock  */
+  YYSYMBOL_Stmt = 34,                      /* Stmt  */
+  YYSYMBOL_expr = 35                       /* expr  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -472,19 +473,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   113
+#define YYLAST   126
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  25
+#define YYNTOKENS  26
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  10
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  35
+#define YYNRULES  36
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  64
+#define YYNSTATES  66
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   279
+#define YYMAXUTOK   280
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -525,17 +526,18 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22,    23,    24
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    74,    74,    75,    79,    83,    90,    91,    97,   102,
-     110,   111,   117,   120,   128,   135,   140,   144,   145,   146,
-     147,   152,   157,   163,   169,   170,   171,   175,   179,   180,
-     181,   182,   183,   184,   185,   186
+       0,    79,    79,    80,    84,    88,    95,    96,   102,   107,
+     115,   116,   122,   125,   133,   140,   145,   149,   150,   151,
+     152,   157,   162,   168,   174,   177,   178,   179,   183,   187,
+     188,   189,   190,   191,   192,   193,   194
 };
 #endif
 
@@ -552,11 +554,11 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "IDENTITY", "TYPE",
-  "NUMBER", "CHARACTER", "STRING", "HIGHEROP", "LOWEROP", "ADDOP", "SUBOP",
-  "MULOP", "DIVOP", "EQUALOP", "IF", "ELSE", "COMMA", "LPAREN", "RPAREN",
-  "LBRACE", "RBRACE", "ASSIGN", "RET", "END", "$accept", "program_root",
-  "CallArgs", "CallArgList", "DeclareArgs", "DeclareArgList", "Statements",
-  "CodeBlock", "Stmt", "expr", YY_NULLPTR
+  "NUMBER", "CHARACTER", "STRING", "ADDR_OF", "HIGHEROP", "LOWEROP",
+  "ADDOP", "SUBOP", "MULOP", "DIVOP", "EQUALOP", "IF", "ELSE", "COMMA",
+  "LPAREN", "RPAREN", "LBRACE", "RBRACE", "ASSIGN", "RET", "END",
+  "$accept", "program_root", "CallArgs", "CallArgList", "DeclareArgs",
+  "DeclareArgList", "Statements", "CodeBlock", "Stmt", "expr", YY_NULLPTR
 };
 
 static const char *
@@ -566,7 +568,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-18)
+#define YYPACT_NINF (-19)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -580,13 +582,13 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -18,    18,   -18,   -14,     3,   -18,   -18,   -18,    -3,    83,
-     -18,    39,    83,    21,    83,    46,    83,    83,    83,    83,
-      83,    83,    83,    83,   -18,    -1,    -2,    99,    15,    83,
-     -18,    87,   -18,    92,    92,   -11,   -11,   -18,   -18,    56,
-      63,    83,   -18,    28,    17,    43,    70,    16,   -18,    99,
-     -18,    33,    16,   -18,   -18,    24,    82,   -18,    23,    16,
-     -18,   -18,   -18,   -18
+     -19,    21,   -19,   -18,     1,   -19,   -19,   -19,    96,   -13,
+      96,   -19,    51,    96,   -16,   -19,    96,    58,    96,    96,
+      96,    96,    96,    96,    96,    96,   -19,     2,    14,   111,
+      18,    96,   -19,    99,   -19,    19,    19,     5,     5,   -19,
+     -19,    68,    75,    96,   -19,    33,    26,    28,    82,    25,
+     -19,   111,   -19,    45,    25,   -19,   -19,    36,    47,   -19,
+      35,    25,   -19,   -19,   -19,   -19
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -594,25 +596,25 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       3,     0,     1,    27,     0,    24,    25,    26,     0,     0,
-       2,     0,     6,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    22,     7,     0,     4,    10,     0,
-      16,     0,    23,    32,    33,    28,    29,    30,    31,    34,
-       0,     0,    35,     0,    11,     0,     0,     0,    19,     5,
-       8,     0,    20,    15,    12,    17,     0,    21,     0,     0,
-       9,    14,    13,    18
+       3,     0,     1,    28,     0,    25,    26,    27,     0,     0,
+       0,     2,     0,     6,     0,    24,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,    22,     7,     0,     4,
+      10,     0,    16,     0,    23,    33,    34,    29,    30,    31,
+      32,    35,     0,     0,    36,     0,    11,     0,     0,     0,
+      19,     5,     8,     0,    20,    15,    12,    17,     0,    21,
+       0,     0,     9,    14,    13,    18
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -18,   -18,   -18,   -18,   -18,   -18,   -18,   -17,    34,    -9
+     -19,   -19,   -19,   -19,   -19,   -19,   -19,    -7,    -5,    -8
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,    25,    26,    44,    45,    58,    55,    10,    11
+       0,     1,    27,    28,    46,    47,    60,    57,    11,    12
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -620,56 +622,58 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      15,    20,    21,    27,    12,    31,    13,    33,    34,    35,
-      36,    37,    38,    39,    40,    14,    41,    42,     2,    43,
-      46,     3,     4,     5,     6,     7,     3,     4,     5,     6,
-       7,    50,    49,     8,    51,    57,    54,    56,     8,    28,
-      59,     9,    63,    29,    61,    30,     9,    16,    17,    18,
-      19,    20,    21,    22,    16,    17,    18,    19,    20,    21,
-      22,    23,    52,    24,    16,    17,    18,    19,    20,    21,
-      32,    16,    17,    18,    19,    20,    21,    22,    16,    17,
-      18,    19,    20,    21,    22,    60,     3,    48,     5,     6,
-       7,     0,    62,     0,    53,    16,    17,    18,    19,    20,
-      21,    22,    18,    19,    20,    21,    47,    16,    17,    18,
-      19,    20,    21,    22
+      15,    13,    17,    30,    14,    29,    16,    31,    33,    32,
+      35,    36,    37,    38,    39,    40,    41,    42,    22,    23,
+      43,     2,    45,    48,     3,     4,     5,     6,     7,     8,
+      20,    21,    22,    23,    44,    51,    52,     9,     3,     4,
+       5,     6,     7,     8,    53,    10,    56,    59,    54,    58,
+      62,     9,     0,    61,    65,    64,     0,    63,     0,    10,
+      18,    19,    20,    21,    22,    23,    24,    18,    19,    20,
+      21,    22,    23,    24,    25,     0,    26,    18,    19,    20,
+      21,    22,    23,    34,    18,    19,    20,    21,    22,    23,
+      24,    18,    19,    20,    21,    22,    23,    24,     0,     3,
+      50,     5,     6,     7,     8,     0,     0,    55,    18,    19,
+      20,    21,    22,    23,    24,     0,     0,     0,     0,    49,
+      18,    19,    20,    21,    22,    23,    24
 };
 
 static const yytype_int8 yycheck[] =
 {
-       9,    12,    13,    12,    18,    14,     3,    16,    17,    18,
-      19,    20,    21,    22,    23,    18,    17,    19,     0,     4,
-      29,     3,     4,     5,     6,     7,     3,     4,     5,     6,
-       7,     3,    41,    15,    17,    52,    20,     4,    15,    18,
-      16,    23,    59,    22,    21,    24,    23,     8,     9,    10,
-      11,    12,    13,    14,     8,     9,    10,    11,    12,    13,
-      14,    22,    19,    24,     8,     9,    10,    11,    12,    13,
-      24,     8,     9,    10,    11,    12,    13,    14,     8,     9,
-      10,    11,    12,    13,    14,     3,     3,    24,     5,     6,
-       7,    -1,    58,    -1,    24,     8,     9,    10,    11,    12,
-      13,    14,    10,    11,    12,    13,    19,     8,     9,    10,
-      11,    12,    13,    14
+       8,    19,    10,    19,     3,    13,    19,    23,    16,    25,
+      18,    19,    20,    21,    22,    23,    24,    25,    13,    14,
+      18,     0,     4,    31,     3,     4,     5,     6,     7,     8,
+      11,    12,    13,    14,    20,    43,     3,    16,     3,     4,
+       5,     6,     7,     8,    18,    24,    21,    54,    20,     4,
+       3,    16,    -1,    17,    61,    60,    -1,    22,    -1,    24,
+       9,    10,    11,    12,    13,    14,    15,     9,    10,    11,
+      12,    13,    14,    15,    23,    -1,    25,     9,    10,    11,
+      12,    13,    14,    25,     9,    10,    11,    12,    13,    14,
+      15,     9,    10,    11,    12,    13,    14,    15,    -1,     3,
+      25,     5,     6,     7,     8,    -1,    -1,    25,     9,    10,
+      11,    12,    13,    14,    15,    -1,    -1,    -1,    -1,    20,
+       9,    10,    11,    12,    13,    14,    15
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    26,     0,     3,     4,     5,     6,     7,    15,    23,
-      33,    34,    18,     3,    18,    34,     8,     9,    10,    11,
-      12,    13,    14,    22,    24,    27,    28,    34,    18,    22,
-      24,    34,    24,    34,    34,    34,    34,    34,    34,    34,
-      34,    17,    19,     4,    29,    30,    34,    19,    24,    34,
-       3,    17,    19,    24,    20,    32,     4,    32,    31,    16,
-       3,    21,    33,    32
+       0,    27,     0,     3,     4,     5,     6,     7,     8,    16,
+      24,    34,    35,    19,     3,    35,    19,    35,     9,    10,
+      11,    12,    13,    14,    15,    23,    25,    28,    29,    35,
+      19,    23,    25,    35,    25,    35,    35,    35,    35,    35,
+      35,    35,    35,    18,    20,     4,    30,    31,    35,    20,
+      25,    35,     3,    18,    20,    25,    21,    33,     4,    33,
+      32,    17,     3,    22,    34,    33
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    25,    26,    26,    27,    27,    28,    28,    29,    29,
-      30,    30,    31,    31,    32,    33,    33,    33,    33,    33,
-      33,    33,    33,    33,    34,    34,    34,    34,    34,    34,
-      34,    34,    34,    34,    34,    34
+       0,    26,    27,    27,    28,    28,    29,    29,    30,    30,
+      31,    31,    32,    32,    33,    34,    34,    34,    34,    34,
+      34,    34,    34,    34,    35,    35,    35,    35,    35,    35,
+      35,    35,    35,    35,    35,    35,    35
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -677,8 +681,8 @@ static const yytype_int8 yyr2[] =
 {
        0,     2,     2,     0,     1,     3,     0,     1,     2,     4,
        0,     1,     0,     2,     3,     5,     3,     5,     7,     4,
-       5,     6,     2,     3,     1,     1,     1,     1,     3,     3,
-       3,     3,     3,     3,     3,     4
+       5,     6,     2,     3,     2,     1,     1,     1,     1,     3,
+       3,     3,     3,     3,     3,     3,     4
 };
 
 
@@ -1412,262 +1416,270 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program_root: program_root Stmt  */
-#line 74 "/home/k40/X4A/src/bison/yacc.y"
+#line 79 "/home/k40/X4A/src/bison/yacc.y"
                     { program.AddStmt((yyvsp[0].stmt_)); }
-#line 1418 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1422 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 4: /* CallArgs: expr  */
-#line 79 "/home/k40/X4A/src/bison/yacc.y"
+#line 84 "/home/k40/X4A/src/bison/yacc.y"
       {
     (yyval.callArgs_) =new std::vector<ExprNode*> ();
     (yyval.callArgs_)->push_back((yyvsp[0].expr_));
   }
-#line 1427 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1431 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 5: /* CallArgs: CallArgs COMMA expr  */
-#line 83 "/home/k40/X4A/src/bison/yacc.y"
+#line 88 "/home/k40/X4A/src/bison/yacc.y"
                        {
     (yyvsp[-2].callArgs_)->push_back((yyvsp[0].expr_));
     (yyval.callArgs_) = (yyvsp[-2].callArgs_);
   }
-#line 1436 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1440 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 6: /* CallArgList: %empty  */
-#line 90 "/home/k40/X4A/src/bison/yacc.y"
+#line 95 "/home/k40/X4A/src/bison/yacc.y"
   {(yyval.callArgs_)= new std::vector<ExprNode*> ();}
-#line 1442 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1446 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 7: /* CallArgList: CallArgs  */
-#line 91 "/home/k40/X4A/src/bison/yacc.y"
+#line 96 "/home/k40/X4A/src/bison/yacc.y"
             {
     (yyval.callArgs_) =(yyvsp[0].callArgs_);
   }
-#line 1450 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1454 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 8: /* DeclareArgs: TYPE IDENTITY  */
-#line 97 "/home/k40/X4A/src/bison/yacc.y"
+#line 102 "/home/k40/X4A/src/bison/yacc.y"
                {
     (yyval.declareArgs_) = new std::vector<std::pair<Types,std::string>> ();
     (yyval.declareArgs_)->push_back(std::pair<Types,std::string>((yyvsp[-1].type_),std::string(*(yyvsp[0].str))));
     delete (yyvsp[0].str);
   }
-#line 1460 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1464 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 9: /* DeclareArgs: DeclareArgs COMMA TYPE IDENTITY  */
-#line 102 "/home/k40/X4A/src/bison/yacc.y"
+#line 107 "/home/k40/X4A/src/bison/yacc.y"
                                    {
     (yyvsp[-3].declareArgs_)->push_back(std::pair<Types,std::string>((yyvsp[-1].type_),std::string(*(yyvsp[0].str))));
     delete (yyvsp[0].str);
     (yyval.declareArgs_) = (yyvsp[-3].declareArgs_);
   }
-#line 1470 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1474 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 10: /* DeclareArgList: %empty  */
-#line 110 "/home/k40/X4A/src/bison/yacc.y"
+#line 115 "/home/k40/X4A/src/bison/yacc.y"
   {(yyval.declareArgs_) = new std::vector<std::pair<Types,std::string>> ();}
-#line 1476 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1480 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 11: /* DeclareArgList: DeclareArgs  */
-#line 111 "/home/k40/X4A/src/bison/yacc.y"
+#line 116 "/home/k40/X4A/src/bison/yacc.y"
                {
     (yyval.declareArgs_) =(yyvsp[0].declareArgs_);
   }
-#line 1484 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1488 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 12: /* Statements: %empty  */
-#line 117 "/home/k40/X4A/src/bison/yacc.y"
+#line 122 "/home/k40/X4A/src/bison/yacc.y"
   {
     (yyval.block_)= new BlockNode();
   }
-#line 1492 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1496 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 13: /* Statements: Statements Stmt  */
-#line 121 "/home/k40/X4A/src/bison/yacc.y"
+#line 126 "/home/k40/X4A/src/bison/yacc.y"
       {
         (yyvsp[-1].block_)->AddStmt((yyvsp[0].stmt_));
         (yyval.block_) =(yyvsp[-1].block_);
       }
-#line 1501 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1505 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 14: /* CodeBlock: LBRACE Statements RBRACE  */
-#line 128 "/home/k40/X4A/src/bison/yacc.y"
+#line 133 "/home/k40/X4A/src/bison/yacc.y"
                           {
     (yyval.block_) = new BlockNode(*(yyvsp[-1].block_));
     delete (yyvsp[-1].block_);
   }
-#line 1510 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1514 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 15: /* Stmt: TYPE IDENTITY ASSIGN expr END  */
-#line 136 "/home/k40/X4A/src/bison/yacc.y"
+#line 141 "/home/k40/X4A/src/bison/yacc.y"
     { 
         (yyval.stmt_) = new VarDeclareNode(*(yyvsp[-3].str), (yyvsp[-1].expr_),(yyvsp[-4].type_)); 
         delete (yyvsp[-3].str);
     }
-#line 1519 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1523 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 16: /* Stmt: TYPE IDENTITY END  */
-#line 140 "/home/k40/X4A/src/bison/yacc.y"
+#line 145 "/home/k40/X4A/src/bison/yacc.y"
                      {  //变量只声明
     (yyval.stmt_) = new VarDeclareNode(*(yyvsp[-1].str),NULL,(yyvsp[-2].type_));
     delete (yyvsp[-1].str);
   }
-#line 1528 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1532 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 17: /* Stmt: IF LPAREN expr RPAREN CodeBlock  */
-#line 144 "/home/k40/X4A/src/bison/yacc.y"
+#line 149 "/home/k40/X4A/src/bison/yacc.y"
                                     {(yyval.stmt_) = new IfElseNode((yyvsp[-2].expr_),(yyvsp[0].block_),NULL);}
-#line 1534 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1538 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 18: /* Stmt: IF LPAREN expr RPAREN CodeBlock ELSE CodeBlock  */
-#line 145 "/home/k40/X4A/src/bison/yacc.y"
+#line 150 "/home/k40/X4A/src/bison/yacc.y"
                                                   {(yyval.stmt_) =new IfElseNode((yyvsp[-4].expr_),(yyvsp[-2].block_),(yyvsp[0].block_));}
-#line 1540 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1544 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 19: /* Stmt: expr ASSIGN expr END  */
-#line 146 "/home/k40/X4A/src/bison/yacc.y"
+#line 151 "/home/k40/X4A/src/bison/yacc.y"
                          {(yyval.stmt_) = new AssignStmtNode((yyvsp[-3].expr_),(yyvsp[-1].expr_));}
-#line 1546 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1550 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 20: /* Stmt: TYPE IDENTITY LPAREN DeclareArgList RPAREN  */
-#line 147 "/home/k40/X4A/src/bison/yacc.y"
-                                              {
+#line 152 "/home/k40/X4A/src/bison/yacc.y"
+                                              {  //函数仅声明
     (yyval.stmt_) = new FuncDefineNode(*(yyvsp[-3].str),(yyvsp[-4].type_),NULL,*(yyvsp[-1].declareArgs_));
     delete (yyvsp[-3].str);
     delete (yyvsp[-1].declareArgs_);
   }
-#line 1556 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1560 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 21: /* Stmt: TYPE IDENTITY LPAREN DeclareArgList RPAREN CodeBlock  */
-#line 152 "/home/k40/X4A/src/bison/yacc.y"
-                                                        {
+#line 157 "/home/k40/X4A/src/bison/yacc.y"
+                                                        {  //函数声明的同时定义
     (yyval.stmt_) = new FuncDefineNode(*(yyvsp[-4].str),(yyvsp[-5].type_),(yyvsp[0].block_),*(yyvsp[-2].declareArgs_));
     delete (yyvsp[-4].str);
     delete (yyvsp[-2].declareArgs_);
   }
-#line 1566 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1570 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 22: /* Stmt: expr END  */
-#line 157 "/home/k40/X4A/src/bison/yacc.y"
+#line 162 "/home/k40/X4A/src/bison/yacc.y"
             {
     if(!(yyvsp[-1].expr_)->ValidIndependExpr()){
       yyerror("Ilegal Stand Alone Expr");
     }
     (yyval.stmt_) = new LegalExprStmtNode((yyvsp[-1].expr_));
   }
-#line 1577 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1581 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
   case 23: /* Stmt: RET expr END  */
-#line 163 "/home/k40/X4A/src/bison/yacc.y"
+#line 168 "/home/k40/X4A/src/bison/yacc.y"
                 {
     (yyval.stmt_) = new ReturnNode((yyvsp[-1].expr_));
   }
-#line 1585 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1589 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
-  case 24: /* expr: NUMBER  */
-#line 169 "/home/k40/X4A/src/bison/yacc.y"
-         { (yyval.expr_) = new NumberNode((yyvsp[0].num_)); }
-#line 1591 "/home/k40/X4A/src/bison/yacc.cpp"
-    break;
-
-  case 25: /* expr: CHARACTER  */
-#line 170 "/home/k40/X4A/src/bison/yacc.y"
-              { (yyval.expr_) = new CharNode((yyvsp[0].charac_)); }
+  case 24: /* expr: ADDR_OF expr  */
+#line 174 "/home/k40/X4A/src/bison/yacc.y"
+              {
+    (yyval.expr_) = new UnaryOPNode((yyvsp[-1].unaryOP_),(yyvsp[0].expr_));
+  }
 #line 1597 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
-  case 26: /* expr: STRING  */
-#line 171 "/home/k40/X4A/src/bison/yacc.y"
+  case 25: /* expr: NUMBER  */
+#line 177 "/home/k40/X4A/src/bison/yacc.y"
+           { (yyval.expr_) = new NumberNode((yyvsp[0].num_)); }
+#line 1603 "/home/k40/X4A/src/bison/yacc.cpp"
+    break;
+
+  case 26: /* expr: CHARACTER  */
+#line 178 "/home/k40/X4A/src/bison/yacc.y"
+              { (yyval.expr_) = new CharNode((yyvsp[0].charac_)); }
+#line 1609 "/home/k40/X4A/src/bison/yacc.cpp"
+    break;
+
+  case 27: /* expr: STRING  */
+#line 179 "/home/k40/X4A/src/bison/yacc.y"
           {
     (yyval.expr_) = new StringNode((yyvsp[0].strVal_)->substr(1,(yyvsp[0].strVal_)->size()-2));  //去除开头的两个双引号
     delete (yyvsp[0].strVal_);
   }
-#line 1606 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1618 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
-  case 27: /* expr: IDENTITY  */
-#line 175 "/home/k40/X4A/src/bison/yacc.y"
+  case 28: /* expr: IDENTITY  */
+#line 183 "/home/k40/X4A/src/bison/yacc.y"
              { 
       (yyval.expr_) = new VarReferNode(*(yyvsp[0].str)); 
       delete (yyvsp[0].str);
     }
-#line 1615 "/home/k40/X4A/src/bison/yacc.cpp"
-    break;
-
-  case 28: /* expr: expr ADDOP expr  */
-#line 179 "/home/k40/X4A/src/bison/yacc.y"
-                    { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].op_), (yyvsp[0].expr_)); }
-#line 1621 "/home/k40/X4A/src/bison/yacc.cpp"
-    break;
-
-  case 29: /* expr: expr SUBOP expr  */
-#line 180 "/home/k40/X4A/src/bison/yacc.y"
-                    { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].op_), (yyvsp[0].expr_)); }
 #line 1627 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
-  case 30: /* expr: expr MULOP expr  */
-#line 181 "/home/k40/X4A/src/bison/yacc.y"
-                    { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].op_), (yyvsp[0].expr_)); }
+  case 29: /* expr: expr ADDOP expr  */
+#line 187 "/home/k40/X4A/src/bison/yacc.y"
+                    { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].binaryOP_), (yyvsp[0].expr_)); }
 #line 1633 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
-  case 31: /* expr: expr DIVOP expr  */
-#line 182 "/home/k40/X4A/src/bison/yacc.y"
-                    { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].op_), (yyvsp[0].expr_)); }
+  case 30: /* expr: expr SUBOP expr  */
+#line 188 "/home/k40/X4A/src/bison/yacc.y"
+                    { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].binaryOP_), (yyvsp[0].expr_)); }
 #line 1639 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
-  case 32: /* expr: expr HIGHEROP expr  */
-#line 183 "/home/k40/X4A/src/bison/yacc.y"
-                       { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].op_), (yyvsp[0].expr_));}
+  case 31: /* expr: expr MULOP expr  */
+#line 189 "/home/k40/X4A/src/bison/yacc.y"
+                    { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].binaryOP_), (yyvsp[0].expr_)); }
 #line 1645 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
-  case 33: /* expr: expr LOWEROP expr  */
-#line 184 "/home/k40/X4A/src/bison/yacc.y"
-                      { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].op_), (yyvsp[0].expr_));}
+  case 32: /* expr: expr DIVOP expr  */
+#line 190 "/home/k40/X4A/src/bison/yacc.y"
+                    { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].binaryOP_), (yyvsp[0].expr_)); }
 #line 1651 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
-  case 34: /* expr: expr EQUALOP expr  */
-#line 185 "/home/k40/X4A/src/bison/yacc.y"
-                      {(yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].op_), (yyvsp[0].expr_));}
+  case 33: /* expr: expr HIGHEROP expr  */
+#line 191 "/home/k40/X4A/src/bison/yacc.y"
+                       { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].binaryOP_), (yyvsp[0].expr_));}
 #line 1657 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
-  case 35: /* expr: IDENTITY LPAREN CallArgList RPAREN  */
-#line 186 "/home/k40/X4A/src/bison/yacc.y"
+  case 34: /* expr: expr LOWEROP expr  */
+#line 192 "/home/k40/X4A/src/bison/yacc.y"
+                      { (yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].binaryOP_), (yyvsp[0].expr_));}
+#line 1663 "/home/k40/X4A/src/bison/yacc.cpp"
+    break;
+
+  case 35: /* expr: expr EQUALOP expr  */
+#line 193 "/home/k40/X4A/src/bison/yacc.y"
+                      {(yyval.expr_) = new BinaryOPNode((yyvsp[-2].expr_), (yyvsp[-1].binaryOP_), (yyvsp[0].expr_));}
+#line 1669 "/home/k40/X4A/src/bison/yacc.cpp"
+    break;
+
+  case 36: /* expr: IDENTITY LPAREN CallArgList RPAREN  */
+#line 194 "/home/k40/X4A/src/bison/yacc.y"
                                       {
       (yyval.expr_) = new FuncCallNode(*(yyvsp[-3].str),*(yyvsp[-1].callArgs_));
       delete (yyvsp[-3].str);
       delete (yyvsp[-1].callArgs_);
     }
-#line 1667 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1679 "/home/k40/X4A/src/bison/yacc.cpp"
     break;
 
 
-#line 1671 "/home/k40/X4A/src/bison/yacc.cpp"
+#line 1683 "/home/k40/X4A/src/bison/yacc.cpp"
 
       default: break;
     }
@@ -1891,4 +1903,4 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 192 "/home/k40/X4A/src/bison/yacc.y"
+#line 200 "/home/k40/X4A/src/bison/yacc.y"

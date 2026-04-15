@@ -23,13 +23,14 @@ extern "C" int yywrap() { return 1;}
 [0-9]+                      {yylval.num_=std::stoll(yytext); return NUMBER;} 
 "'"([\x20-\x7E])"'"         {yylval.charac_=yytext[1]; return CHARACTER;}
 "="                         {return ASSIGN;} 
-"=="                        {yylval.op_=EQUAL; return EQUALOP;}
-">"                         {yylval.op_=HIGHER; return HIGHEROP;} 
-"<"                         {yylval.op_=LOWER; return LOWEROP;} 
-"+"                         {yylval.op_=ADD; return ADDOP;} 
-"-"                         {yylval.op_=SUB; return SUBOP;} 
-"*"                         {yylval.op_=MUL; return MULOP;} 
-"/"                         {yylval.op_=DIV; return DIVOP;}
+"=="                        {yylval.binaryOP_=EQUAL; return EQUALOP;}
+">"                         {yylval.binaryOP_=HIGHER; return HIGHEROP;} 
+"<"                         {yylval.binaryOP_=LOWER; return LOWEROP;} 
+"+"                         {yylval.binaryOP_=ADD; return ADDOP;} 
+"-"                         {yylval.binaryOP_=SUB; return SUBOP;} 
+"*"                         {yylval.binaryOP_=MUL; return MULOP;} 
+"/"                         {yylval.binaryOP_=DIV; return DIVOP;}
+"&"                         {yylval.unaryOP_=REF; return ADDR_OF;}
 ","                         {return COMMA;} 
 "("                         {return LPAREN;}
 ")"                         {return RPAREN;}

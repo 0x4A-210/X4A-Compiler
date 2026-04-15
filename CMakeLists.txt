@@ -61,6 +61,7 @@ set(SOURCE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Generator/IRGenerate.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Runtime.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Tools/StdLib.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Tools/Helper.cpp
     ${BISON_XAC_Parser_OUTPUTS}
     ${FLEX_XAC_Scanner_OUTPUTS}
 )

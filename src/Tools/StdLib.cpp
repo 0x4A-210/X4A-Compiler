@@ -16,22 +16,29 @@ void ResolveGLIBC_printf(X4A_Ctx& context,std::string& funcName){
 }
 
 void ResolveGLIBC_scanf(X4A_Ctx& context,std::string& funcName){
-
+    llvm::FunctionType* funcType=llvm::FunctionType::get(llvm::Type::getInt32Ty(*context.llvmContext_),true);
+    llvm::Function* funcEnternity=llvm::Function::Create(funcType,llvm::Function::ExternalLinkage,"scanf",*context.llvmModule_);
+    context.llvmFuncTable_[funcName]=funcEnternity;
 }
 
 void RuntimeResolveGLIBC(X4A_Ctx& context,std::string& funcName){
-    switch(standardLibFunc[funcName]){
-        case PRINTF:{
-            ResolveGLIBC_printf(context,funcName);
-            break;
-        }
-        case SCANF:{
-            ResolveGLIBC_scanf(context,funcName);
-            break;
-        }
-        default:{
-            std::cerr<<"This func have'nt support"<<std::endl;
-            break;
+    if(context.llvmFuncTable_.find(funcName)!=context.llvmFuncTable_.end()){
+        return;
+    }
+    else{
+        switch(standardLibFunc[funcName]){
+            case PRINTF:{
+                ResolveGLIBC_printf(context,funcName);
+                break;
+            }
+            case SCANF:{
+                ResolveGLIBC_scanf(context,funcName);
+                break;
+            }
+            default:{
+                std::cerr<<"This func have'nt support"<<std::endl;
+                break;
+            }
         }
     }
 }
