@@ -8,4 +8,4 @@ class X4A_Ctx;
 enum Types;
 
 std::string Type2String(Types type_);
-llvm::Type* Trans2LLVMType(Types type_,X4A_Ctx& context);
+llvm::Type* Trans2LLVMType(Types type_,X4A_Ctx& context,int ptrLevel=0);

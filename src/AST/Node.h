@@ -42,7 +42,8 @@ public:
     virtual llvm::Value* IRGenerate(X4A_Ctx& context) =0;  //这里返回类型必须是一个llvm::Value类型
     virtual void ShowASTNode() =0;
     virtual bool ValidIndependExpr() {return false;}
-    virtual llvm::Value* LoadAddress(X4A_Ctx& context){ return NULL;}
+    virtual llvm::Value* LoadAddress(X4A_Ctx& context){ return NULL;}  //拿取这个表达式的地址，用于给指针赋值
+    virtual llvm::Value* DerefValue(X4A_Ctx& context){ return NULL;}  //从一个指针类型表达式中解引用
 };
 
 class StmtNode:public Node{
@@ -110,14 +111,16 @@ public:
     void ShowASTNode();
     std::string GetName() const { return name_; }
     llvm::Value* LoadAddress(X4A_Ctx& context) override;
+    llvm::Value* DerefValue(X4A_Ctx& context) override;
 };
 
 class VarDeclareNode:public StmtNode{
     Types type_;
     std::string name_;
     ExprNode* value_;
+    int ptrLevel_;;
 public:
-    VarDeclareNode(const std::string& name, ExprNode* value,Types type=QWORD) : name_(name), value_(value),type_(type){}
+    VarDeclareNode(const std::string& name, ExprNode* value,Types type=QWORD,int ptrLevel=0) : name_(name), value_(value),type_(type),ptrLevel_(ptrLevel){}
     void IRGenerate(X4A_Ctx& context);
     void ShowASTNode();
 };

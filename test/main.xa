@@ -1,9 +1,3 @@
-Num64 a=10;
-Print("Please input value:> ");
-Scan("%lld",&a);
-if(a>128){
-    Print("hello,%lld",a);
-}
-else{
-    Print("hello,wolrd");
-}
+Num64 x=328;
+Num64 *px=&x;
+Print("The value at %p is %lld",px,*px);

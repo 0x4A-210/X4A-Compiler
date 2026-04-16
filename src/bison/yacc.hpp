@@ -100,7 +100,8 @@ extern int yydebug;
     RBRACE = 277,                  /* RBRACE  */
     ASSIGN = 278,                  /* ASSIGN  */
     RET = 279,                     /* RET  */
-    END = 280                      /* END  */
+    END = 280,                     /* END  */
+    DEREF = 281                    /* DEREF  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -124,7 +125,7 @@ union YYSTYPE
     std::vector<ExprNode*>* callArgs_;
     std::vector<std::pair<Types,std::string>>* declareArgs_;
 
-#line 128 "/home/k40/X4A/src/bison/yacc.hpp"
+#line 129 "/home/k40/X4A/src/bison/yacc.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

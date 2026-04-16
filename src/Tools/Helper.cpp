@@ -40,39 +40,44 @@ std::string Type2String(Types type_){
     }
 }
 
-llvm::Type* Trans2LLVMType(Types type_,X4A_Ctx& context){
-    switch(type_){
-        case QWORD:{
-            return llvm::Type::getInt64Ty(*context.llvmContext_);
-            break;
-        }
-        case DWORD:{
-            return llvm::Type::getInt32Ty(*context.llvmContext_);
-            break;
-        }
-        case WORD:{
-            return llvm::Type::getInt16Ty(*context.llvmContext_);
-            break;
-        }
-        case BYTE:{
-            return llvm::Type::getInt8Ty(*context.llvmContext_);
-            break;
-        }
-        case CHAR:{
-            return llvm::Type::getInt8Ty(*context.llvmContext_);
-            break;
-        }
-        case VOID:{
-            return llvm::Type::getVoidTy(*context.llvmContext_);
-            break;
-        }
-        case STR:{
-            return llvm::PointerType::get(*context.llvmContext_, 0);
-            break;
-        }
-        default:{
-            return llvm::Type::getVoidTy(*context.llvmContext_);
-            break;
+llvm::Type* Trans2LLVMType(Types type_,X4A_Ctx& context,int ptrLevel=0){
+    if(ptrLevel>0){
+        return llvm::PointerType::get(*context.llvmContext_, 0);
+    }
+    else{
+        switch(type_){
+            case QWORD:{
+                return llvm::Type::getInt64Ty(*context.llvmContext_);
+                break;
+            }
+            case DWORD:{
+                return llvm::Type::getInt32Ty(*context.llvmContext_);
+                break;
+            }
+            case WORD:{
+                return llvm::Type::getInt16Ty(*context.llvmContext_);
+                break;
+            }
+            case BYTE:{
+                return llvm::Type::getInt8Ty(*context.llvmContext_);
+                break;
+            }
+            case CHAR:{
+                return llvm::Type::getInt8Ty(*context.llvmContext_);
+                break;
+            }
+            case VOID:{
+                return llvm::Type::getVoidTy(*context.llvmContext_);
+                break;
+            }
+            case STR:{
+                return llvm::PointerType::get(*context.llvmContext_, 0);
+                break;
+            }
+            default:{
+                return llvm::Type::getVoidTy(*context.llvmContext_);
+                break;
+            }
         }
     }
 }

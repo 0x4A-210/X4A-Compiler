@@ -64,7 +64,8 @@
 %left HIGHEROP LOWEROP
 %left ADDOP SUBOP 
 %left MULOP DIVOP
-%right ADDR_OF 
+%right ADDR_OF
+%right DEREF 
 // 语法规则入口 
 %type <expr_> expr 
 %type <stmt_> Stmt
@@ -142,9 +143,17 @@ Stmt:
         $$ = new VarDeclareNode(*$2, $4,$1); 
         delete $2;
     }
+  | TYPE MULOP IDENTITY ASSIGN expr END{  //指针变量
+    $$ = new VarDeclareNode(*$3,$5,$1,1);
+    delete $3;
+  }
   | TYPE IDENTITY END{  //变量只声明
     $$ = new VarDeclareNode(*$2,NULL,$1);
     delete $2;
+  }
+  | TYPE MULOP IDENTITY END{  //同样，对应的指针变量
+    $$ =new VarDeclareNode(*$3,NULL,$1,1);
+    delete $3;
   }
   | IF LPAREN expr RPAREN CodeBlock {$$ = new IfElseNode($3,$5,NULL);}
   | IF LPAREN expr RPAREN CodeBlock ELSE CodeBlock{$$ =new IfElseNode($3,$5,$7);}
@@ -171,7 +180,11 @@ Stmt:
   ;
 
 expr: 
-  ADDR_OF expr{
+  MULOP expr %prec DEREF{
+    UnaryOP deref=DE_REF;
+    $$ = new UnaryOPNode(deref,$2);
+  }
+  | ADDR_OF expr{
     $$ = new UnaryOPNode($1,$2);
   }
   | NUMBER { $$ = new NumberNode($1); } 
