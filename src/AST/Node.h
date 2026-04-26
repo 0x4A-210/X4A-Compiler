@@ -44,6 +44,7 @@ public:
     virtual bool ValidIndependExpr() {return false;}
     virtual llvm::Value* LoadAddress(X4A_Ctx& context){ return NULL;}  //拿取这个表达式的地址，用于给指针赋值
     virtual llvm::Value* DerefValue(X4A_Ctx& context){ return NULL;}  //从一个指针类型表达式中解引用
+    virtual std::string GetName() const {return "";}  //为了后续扩展变量、*p，a[i]等左值
 };
 
 class StmtNode:public Node{

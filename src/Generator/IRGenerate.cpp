@@ -9,6 +9,33 @@
 #include"../Tools/StdLib.h"
 #include<iostream>
 #include"../Tools/Helper.h"
+void Push(X4A_Ctx& context, std::string name, VarInfo var){
+    std::unordered_map<std::string,VarInfo> newVariable;
+    newVariable[name]=var;
+    context.llvmSymTable_.push_back(newVariable);
+}
+
+void Pop(X4A_Ctx& context){
+    context.llvmSymTable_.pop_back();
+}
+
+int SearchSymbols(X4A_Ctx& context,std::string name){
+    int res=-1;
+    for(int i=context.llvmSymTable_.size()-1;i>=0;i--){
+        if(context.llvmSymTable_[i].find(name)!=context.llvmSymTable_[i].end()){
+            res=i;
+            break;
+        }
+    }
+    return res;
+}
+
+void CleanBlockScope(X4A_Ctx& context,int varCnt){
+    for(int i=0;i<varCnt;i++){
+        Pop(context);
+    }
+}
+
 llvm::Value* NumberNode::IRGenerate(X4A_Ctx& context){  //所有数值默认64位
     return llvm::ConstantInt::get(llvm::Type::getInt64Ty(*context.llvmContext_),value_, true);
 }
@@ -22,38 +49,43 @@ llvm::Value* StringNode::IRGenerate(X4A_Ctx& context){
 }
 
 llvm::Value* VarReferNode::LoadAddress(X4A_Ctx& context){
-    if(context.llvmSymTable_.find(name_)!=context.llvmSymTable_.end()){
-        llvm::AllocaInst* memAlloc=context.llvmSymTable_[name_].addr_;
-        // std::cout<<"让我康康拿到了什么样的Value: ";
-        // memAlloc->getType()->print(llvm::outs());
-        // memAlloc->print(llvm::outs());
-        // std::cout<<std::endl;
+    int varIdx=SearchSymbols(context,name_);
+    if(varIdx!=-1){
+        llvm::AllocaInst* memAlloc=context.llvmSymTable_[varIdx][name_].addr_;
         return memAlloc;
     }
     else return NULL;
 }
 
 llvm::Value* VarReferNode::DerefValue(X4A_Ctx& context){
-    llvm::AllocaInst* memAlloc=context.llvmSymTable_[name_].addr_;  //memAlloc是一个ptr，LLVM里只有ptr，不存在**
-    if(memAlloc){
-        llvm::LoadInst* address = context.llvmBuilder_->CreateLoad(memAlloc->getAllocatedType(),memAlloc,name_);
-        // std::cout<<"让我康康拿到了什么样的Value: ";
-        // address->getType()->print(llvm::outs());
-        // address->print(llvm::outs());
-        // std::cout<<std::endl;
-        int newLevel=context.llvmSymTable_[name_].ptrLevel_-1;
-        int curLevel= (context.llvmSymTable_[name_].ptrLevel_==0? 0:newLevel);
-        llvm::Type* ptr2What=Trans2LLVMType(context.llvmSymTable_[name_].type_,context,curLevel);    //int * p，想办法拿到int
-        llvm::LoadInst* value=context.llvmBuilder_->CreateLoad(ptr2What,address,name_+"_deref");
-        return value;
+    int varIdx=SearchSymbols(context,name_);
+    if(varIdx!=-1){
+        llvm::AllocaInst* memAlloc=context.llvmSymTable_[varIdx][name_].addr_;  //memAlloc是一个ptr，LLVM里只有ptr，不存在**
+        if(memAlloc){
+            llvm::LoadInst* address = context.llvmBuilder_->CreateLoad(memAlloc->getAllocatedType(),memAlloc,name_);
+            // std::cout<<"让我康康拿到了什么样的Value: ";
+            // address->getType()->print(llvm::outs());
+            // address->print(llvm::outs());
+            // std::cout<<std::endl;
+            int newLevel=context.llvmSymTable_[varIdx][name_].ptrLevel_-1;
+            int curLevel= (context.llvmSymTable_[varIdx][name_].ptrLevel_==0? 0:newLevel);
+            llvm::Type* ptr2What=Trans2LLVMType(context.llvmSymTable_[varIdx][name_].type_,context,curLevel);    //int * p，想办法拿到int
+            llvm::LoadInst* value=context.llvmBuilder_->CreateLoad(ptr2What,address,name_+"_deref");
+            return value;
+        }
+        else return NULL;
     }
     else return NULL;
 }
 
 llvm::Value* VarReferNode::IRGenerate(X4A_Ctx& context){
-    llvm::AllocaInst* memAlloc=context.llvmSymTable_[name_].addr_;
-    if(memAlloc){
-        return context.llvmBuilder_->CreateLoad(memAlloc->getAllocatedType(),memAlloc,name_);
+    int varIdx=SearchSymbols(context,name_);
+    if(varIdx!=-1){
+        llvm::AllocaInst* memAlloc=context.llvmSymTable_[varIdx][name_].addr_;
+        if(memAlloc){
+            return context.llvmBuilder_->CreateLoad(memAlloc->getAllocatedType(),memAlloc,name_);
+        }
+        else return NULL;
     }
     else return NULL;
 }
@@ -117,7 +149,9 @@ void VarDeclareNode::IRGenerate(X4A_Ctx& context){
     llvm::Type* varType=Trans2LLVMType(type_, context,ptrLevel_);
     //先分配空间
     llvm::AllocaInst* memAlloc=context.llvmBuilder_->CreateAlloca(varType, nullptr, name_);
-    context.llvmSymTable_[name_]=VarInfo(type_,memAlloc,ptrLevel_);
+    std::unordered_map<std::string,VarInfo> newVariable;
+    newVariable[name_]=VarInfo(type_,memAlloc,ptrLevel_);
+    Push(context,name_,VarInfo(type_,memAlloc,ptrLevel_)); 
     //赋值吗？先判空
     if(value_){
         llvm::Value* rightVal=value_->IRGenerate(context);
@@ -130,11 +164,16 @@ void AssignStmtNode::IRGenerate(X4A_Ctx& context){
     llvm::Value* rightValue=rightValue_->IRGenerate(context);
     if(rightValue==NULL) return;
     else{
-        VarReferNode* tmpVar=(VarReferNode*)leftValue_;
-        llvm::AllocaInst* memAlloc=context.llvmSymTable_[tmpVar->GetName()].addr_;
-        if(memAlloc){
-            context.llvmBuilder_->CreateStore(rightValue, memAlloc);
-            return;
+        std::string varName=leftValue_->GetName();
+        if(varName=="") return;
+        int varIdx=SearchSymbols(context,varName);
+        if(varIdx!=-1){
+            llvm::AllocaInst* memAlloc=context.llvmSymTable_[varIdx][varName].addr_;
+            if(memAlloc){
+                context.llvmBuilder_->CreateStore(rightValue, memAlloc);
+                return;
+            }
+            else return;
         }
         else return;
     }
@@ -181,6 +220,7 @@ void ReturnNode::IRGenerate(X4A_Ctx& context){
 
 void FuncDefineNode::IRGenerate(X4A_Ctx& context){
     InsertD guard(*context.llvmBuilder_);
+    int saveVarCnt=context.llvmSymTable_.size();
     if(standardLibFunc.find(funcName_)!= standardLibFunc.end()){
         std::cerr<<"You can not define a func having the same name with std func"<<std::endl;
         exit(1);
@@ -211,15 +251,18 @@ void FuncDefineNode::IRGenerate(X4A_Ctx& context){
             llvm::Argument* arg=funcEnternity->getArg(i);
             llvm::AllocaInst* paramAlloc=context.llvmBuilder_->CreateAlloca(Trans2LLVMType(paramList_[i].first, context),nullptr, paramList_[i].second);
             context.llvmBuilder_->CreateStore(arg, paramAlloc);
-            context.llvmSymTable_[paramList_[i].second]=VarInfo(paramList_[i].first,paramAlloc);
+            Push(context,paramList_[i].second,VarInfo(paramList_[i].first,paramAlloc));
+            // context.llvmSymTable_[paramList_[i].second]=VarInfo(paramList_[i].first,paramAlloc);
         }
         // context.currFunc_=funcEnternity;
         //生成函数体
         funcBody_->IRGenerate(context);
         if(retType_==VOID){
             context.llvmBuilder_->CreateRetVoid();
+            CleanBlockScope(context,context.llvmSymTable_.size()-saveVarCnt);  //清理当前函数作用域的符号表
         }
         else{ //取出最后一条语句，相信程序员，一定会自己写好return
+            CleanBlockScope(context,context.llvmSymTable_.size()-saveVarCnt);
             return;
         }
     }

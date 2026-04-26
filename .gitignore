@@ -4,3 +4,5 @@ bin/
 .vscode/
 #忽略gdb调试信息
 .gdb_history
+#忽略AI交流结果
+LLM.md

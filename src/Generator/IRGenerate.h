@@ -7,7 +7,7 @@
 #include"llvm/IR/Constants.h"
 #include"llvm/IR/Type.h"
 #include"llvm/ADT/APInt.h"
-#include<map>
+#include<unordered_map>
 #include<memory>
 struct VarInfo{
     llvm::AllocaInst* addr_;
@@ -19,6 +19,6 @@ struct X4A_Ctx{
     std::unique_ptr<llvm::LLVMContext> llvmContext_;
     std::unique_ptr<llvm::Module> llvmModule_;
     std::unique_ptr<llvm::IRBuilder<>> llvmBuilder_;
-    std::map<std::string, VarInfo> llvmSymTable_;
-    std::map<std::string, llvm::Function*> llvmFuncTable_;
+    std::vector<std::unordered_map<std::string, VarInfo>> llvmSymTable_;
+    std::unordered_map<std::string, llvm::Function*> llvmFuncTable_;
 };
