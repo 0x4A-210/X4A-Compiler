@@ -4,6 +4,7 @@
 namespace llvm{
     class Type;
 }
+struct VarInfo;
 class X4A_Ctx;
 enum Types;
 

@@ -6,7 +6,7 @@
 #include"llvm/IR/Constants.h"
 #include"llvm/IR/Type.h"
 #include "llvm/ADT/APInt.h"
-#include"../Generator/IRGenerate.h"
+#include"../IR/IRGenerate.h"
 std::string Type2String(Types type_){
     switch(type_){
         case QWORD:{

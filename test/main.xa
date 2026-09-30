@@ -1,3 +1,8 @@
-Num64 x=328;
-Num64 *px=&x;
-Print("The value at %p is %lld",px,*px);
+Num64 func(Num64 x);
+Char t='b';
+Num64 a=1;
+func(a);
+Num64 func(Num64 x){
+    Print("t=%c",t);
+    return x*3+2;
+}

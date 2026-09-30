@@ -8,6 +8,7 @@ extern "C" int yywrap() { return 1;}
 %% 
 [ \t]                       ; 
 \n                          {lineNo+=1;}
+"Main"                      {return MAIN;}
 "return"                    {return RET;}
 "if"                        {return IF;}
 "else"                      {return ELSE;}

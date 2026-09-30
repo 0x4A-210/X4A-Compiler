@@ -3,7 +3,8 @@
 #include<fstream>
 #include<string>
 #include<cstdlib>
-#include"Generator/IRGenerate.h"
+#include"IR/IRGenerate.h"
+#include"Scope/Scope.h"
 // Target 相关（核心）
 #include"llvm/Support/TargetSelect.h"
 #include"llvm/Target/TargetMachine.h"
@@ -18,8 +19,8 @@
 
 // Target triple
 #include"llvm/TargetParser/Host.h"
-#include"./AST/Node.h"
-#include"./Tools/StdLib.h"
+#include"AST/Node.h"
+#include"Tools/StdLib.h"
 extern int yyparse();
 extern StmtLists program;
 extern FILE* yyin;
@@ -97,9 +98,20 @@ void Linker(const char* dstFile){
 void X4A_Run(int cliCount,char* argv[]){
     yyin=ParseCLI(cliCount,argv);
     int res=yyparse();
+    ScopeManager scopeMgr;
     if(!res){
-        std::cout<<"Parsing success!"<<std::endl;
+        std::cout<<"AST Parsing success!"<<std::endl;
+        scopeMgr.RegistAllStd();
+        try{
+            program.ScopeParse(scopeMgr);
+        }
+        catch(std::logic_error& e){
+            std::cout<<"ScopeParse error: "<<e.what()<<std::endl;
+            exit(1);
+        }
+
         X4A_Ctx context;
+        context.scopeMgr_=&scopeMgr;
         context.llvmContext_=std::make_unique<llvm::LLVMContext>();
         context.llvmModule_=std::make_unique<llvm::Module>("X4A_Module",*context.llvmContext_);
         context.llvmBuilder_=std::make_unique<llvm::IRBuilder<>>(*context.llvmContext_);
