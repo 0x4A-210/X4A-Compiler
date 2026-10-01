@@ -1,8 +1,10 @@
-Num64 func(Num64 x);
-Char t='b';
-Num64 a=1;
-func(a);
-Num64 func(Num64 x){
-    Print("t=%c",t);
-    return x*3+2;
+Void Play();
+Num64 x=18;
+if(x==18){
+    Play();
+    Print("yeah");
+}
+Void Play(){
+    Num64 x=9;
+    Print("x=%lld",x);
 }

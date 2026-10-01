@@ -177,18 +177,18 @@ void IfElseNode::IRGenerate(X4A_Ctx& context){
     llvm::Value* result=context.llvmBuilder_->CreateICmpNE(cond, llvm::ConstantInt::get(cond->getType(), 0),"conditionRes");
     llvm::Function* parentFunc=context.llvmBuilder_->GetInsertBlock()->getParent();
     llvm::BasicBlock* ifAction=llvm::BasicBlock::Create(*context.llvmContext_,"ifAction",parentFunc);
-    llvm::BasicBlock* elseAction=llvm::BasicBlock::Create(*context.llvmContext_,"elseAction",parentFunc);
+    llvm::BasicBlock* elseAction=elseBlock_?llvm::BasicBlock::Create(*context.llvmContext_,"elseAction",parentFunc):NULL;
     llvm::BasicBlock* continueCode=llvm::BasicBlock::Create(*context.llvmContext_,"continue",parentFunc);
-    context.llvmBuilder_->CreateCondBr(result, ifAction, elseAction);
+    context.llvmBuilder_->CreateCondBr(result, ifAction, elseBlock_?elseAction:continueCode);
 
     context.llvmBuilder_->SetInsertPoint(ifAction);
     ifBlock_->IRGenerate(context);
-    context.llvmBuilder_->CreateBr(continueCode);
+    if(!context.llvmBuilder_->GetInsertBlock()->getTerminator()) {context.llvmBuilder_->CreateBr(continueCode);}
 
     if(elseBlock_!=NULL){
         context.llvmBuilder_->SetInsertPoint(elseAction);
         elseBlock_->IRGenerate(context);
-        context.llvmBuilder_->CreateBr(continueCode);
+        if(!context.llvmBuilder_->GetInsertBlock()->getTerminator()) {context.llvmBuilder_->CreateBr(continueCode);}
     }
 
     context.llvmBuilder_->SetInsertPoint(continueCode);
@@ -243,6 +243,10 @@ void FuncDefineNode::IRGenerate(X4A_Ctx& context){
             }
             //生成函数体
             funcBody_->IRGenerate(context);
+            if(!context.llvmBuilder_->GetInsertBlock()->getTerminator()){
+                if(retType->isVoidTy()) context.llvmBuilder_->CreateRetVoid();
+                else context.llvmBuilder_->CreateUnreachable();
+            }
         }
     }
     else if(context.llvmFuncTable_.find(symID_)!=context.llvmFuncTable_.end() && funcBody_==NULL){  
@@ -274,6 +278,10 @@ void FuncDefineNode::IRGenerate(X4A_Ctx& context){
             }
             //生成函数体
             funcBody_->IRGenerate(context);
+            if(!context.llvmBuilder_->GetInsertBlock()->getTerminator()){
+                if(retType->isVoidTy()) context.llvmBuilder_->CreateRetVoid();
+                else context.llvmBuilder_->CreateUnreachable();
+            }
         }
     }
 }
@@ -291,7 +299,9 @@ llvm::Value* FuncCallNode::IRGenerate(X4A_Ctx& context){
         if(!tmpParamVal) return NULL;
         paramValues.push_back(tmpParamVal);
     }
-    return context.llvmBuilder_->CreateCall(func, paramValues, "Call");
+    Symbol funcSym=context.scopeMgr_->GetSymbol(symID_);
+    llvm::Type *retType=Trans2LLVMType(funcSym.type_,context);
+    return context.llvmBuilder_->CreateCall(func, paramValues, retType->isVoidTy()?"":"Call");
 }
 
 void LegalExprStmtNode::IRGenerate(X4A_Ctx& context){
