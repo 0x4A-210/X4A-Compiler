@@ -9,6 +9,11 @@
 #include"../Tools/StdLib.h"
 #include<iostream>
 #include"../Tools/Helper.h"
+llvm::Value* ImplicitCast(X4A_Ctx& context,llvm::Value* give,llvm::Type* shouldBe){
+    llvm::Value* castRes=NULL;
+    /* todo */
+    return castRes;
+}
 
 llvm::Value* NumberNode::IRGenerate(X4A_Ctx& context){  //所有数值默认64位
     return llvm::ConstantInt::get(llvm::Type::getInt64Ty(*context.llvmContext_),value_, true);

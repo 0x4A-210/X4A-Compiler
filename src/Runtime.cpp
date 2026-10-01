@@ -21,6 +21,8 @@
 #include"llvm/TargetParser/Host.h"
 #include"AST/Node.h"
 #include"Tools/StdLib.h"
+//辅助函数
+#include"Tools/Helper.h"
 extern int yyparse();
 extern StmtLists program;
 extern FILE* yyin;
@@ -123,7 +125,7 @@ void X4A_Run(int cliCount,char* argv[]){
         program.IRGenerate(context); //生成IR
         //创建返回指令
         context.llvmBuilder_->CreateRet(llvm::ConstantInt::get(llvm::Type::getInt32Ty(*context.llvmContext_), 0));
-        context.llvmModule_->print(llvm::outs(), NULL);  //打印输出IR，用于前期调试
+        IRDB(context);
         bool linkTag=false;
         Assembler(context, argv[2],linkTag); //生成目标文件
         if(linkTag){

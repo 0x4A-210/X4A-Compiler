@@ -1,11 +1,13 @@
 #include"../AST/Node.h"
 #include<string>
+#include<iostream>
 #include"llvm/IR/LLVMContext.h"
 #include"llvm/IR/IRBuilder.h"
 #include"llvm/IR/Module.h"
 #include"llvm/IR/Constants.h"
 #include"llvm/IR/Type.h"
 #include "llvm/ADT/APInt.h"
+#include "llvm/IR/Verifier.h"
 #include"../IR/IRGenerate.h"
 std::string Type2String(Types type_){
     switch(type_){
@@ -79,5 +81,13 @@ llvm::Type* Trans2LLVMType(Types type_,X4A_Ctx& context,int ptrLevel=0){
                 break;
             }
         }
+    }
+}
+
+void IRDB(const X4A_Ctx& context){
+    context.llvmModule_->print(llvm::outs(), NULL);  //打印输出IR，用于前期调试
+    if(llvm::verifyModule(*context.llvmModule_, &llvm::errs())){
+        std::cerr<<"IR verify failed"<<std::endl;
+        exit(1);
     }
 }
