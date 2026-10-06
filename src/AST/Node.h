@@ -61,6 +61,7 @@ public:
     virtual void IRGenerate(X4A_Ctx& context)  =0;  //语句，没有值
     virtual void ShowASTNode() =0;
     virtual void ScopeParse(ScopeManager& scopeMgr_) = 0;
+    virtual bool PromiseReturn() {return false;}  //保证该语句结点一定会return。用于判断return语句后是否还有代码。
 };
 
 class NumberNode:public ExprNode{
@@ -173,6 +174,7 @@ public:
     void IRGenerate(X4A_Ctx& context);
     void AddStmt(StmtNode* stmt);
     void ShowASTNode();
+    bool PromiseReturn();
     void ScopeParse(ScopeManager& scopeMgr_) override;
     void ScopeParseOnly(ScopeManager& scopeMgr_);  //没有守护实例的作用域解析
 };
@@ -186,6 +188,7 @@ public:
     void IRGenerate(X4A_Ctx& context);
     void ShowASTNode();
     void ScopeParse(ScopeManager& scopeMgr_) override;
+    bool PromiseReturn() override;
 };
 
 class FuncDefineNode: public StmtNode{  //声明和定义采用一种结构，如果BlockNode为空表示只声明
@@ -231,4 +234,5 @@ public:
     void IRGenerate(X4A_Ctx& context);
     void ShowASTNode();
     void ScopeParse(ScopeManager& scopeMgr_) override;
+    bool PromiseReturn() override;
 };

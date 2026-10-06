@@ -227,6 +227,9 @@ void LegalExprStmtNode::ScopeParse(ScopeManager& manager_){
 void BlockNode::ScopeParseOnly(ScopeManager& scopeMgr_){
     for(int x=0;x<stmts_.size();x++){
         stmts_[x]->ScopeParse(scopeMgr_);
+        if(stmts_[x]->PromiseReturn() && x!= stmts_.size()-1){
+            throw std::logic_error("still have code after return statement");
+        }
     }
 }
 

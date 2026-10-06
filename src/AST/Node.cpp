@@ -156,6 +156,14 @@ void BlockNode::AddStmt(StmtNode* stmt){
     stmts_.push_back(stmt);
 }
 
+bool BlockNode::PromiseReturn(){
+    for(int x=0;x<stmts_.size();x++){
+        if(stmts_[x]->PromiseReturn()) return true;
+        else continue;
+    }
+    return false;
+}
+
 BlockNode BlockNode::operator =(const BlockNode& other){
     stmts_=other.stmts_;
     return *this;
@@ -180,6 +188,10 @@ void IfElseNode::ShowASTNode(){
     std::cout<<"[If-Else Statement] else block: {"<<std::endl;
     elseBlock_->ShowASTNode();
     std::cout<<"}"<<std::endl;
+}
+
+bool IfElseNode::PromiseReturn(){
+    return ((elseBlock_!=NULL) && (ifBlock_->PromiseReturn()) && (elseBlock_->PromiseReturn()));
 }
 
 void FuncDefineNode::ShowASTNode(){
@@ -214,4 +226,8 @@ void ReturnNode::ShowASTNode(){
     std::cout<<"[Return Statement] return value: {";
     retValue_->ShowASTNode();
     std::cout<<"}";
+}
+
+bool ReturnNode::PromiseReturn(){
+    return true;
 }
